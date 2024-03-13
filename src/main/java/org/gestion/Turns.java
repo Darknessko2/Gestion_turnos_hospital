@@ -5,7 +5,7 @@ public enum Turns {
     MO(7),
     AF(7),
     LI(0),
-    SALIENTE(0);
+    SA(0);
 
     private int horas;
 

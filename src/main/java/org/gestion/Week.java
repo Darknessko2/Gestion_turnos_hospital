@@ -12,6 +12,7 @@ public class Week {
     private Day day;
 
     private static final int DIAS_SEMANA = 7;
+    private static final String[] DIAS = new String[]{"MONDAY","TUESDAY","WEDNESDAY","THRUSDAY","FRIDAY","SATURDAY","SUNDAY"};
     private static int dia;
     private static int registro;
 
@@ -64,14 +65,17 @@ public class Week {
     }
     public void show(Turns turno){
         Color color;
+
         if (turno == Turns.AF)
             color = Color.YELLOW;
         else if (turno == Turns.LI)
             color = Color.GREEN;
         else if (turno == Turns.NI)
             color = Color.BLUE;
-        else
+        else if(turno == Turns.MO)
             color = Color.RED;
+        else
+            color = Color.CYAN;
 
         System.out.print(Color.str(turno+" ",color));
     }
@@ -82,8 +86,9 @@ public class Week {
                 if (turnoCorrecto(turno))
                     return turno;
             }
-
-            return Turns.LI;
+            return (getDiaAnterior() == Turns.NI) // si no le corresponde ningun turno el dia sera libre o saliente
+                    ?Turns.SA
+                    :Turns.LI;
     }
     public boolean turnoCorrecto(Turns turno){
 
@@ -93,6 +98,13 @@ public class Week {
             return checkTarde();
         else
             return checkNoche();
+    }
+    public Turns getDiaAnterior(){
+        Turns diaAnterior = null;
+        if (dia != 0)
+            diaAnterior = horario[registro][dia - 1];
+
+        return diaAnterior;
     }
 
     private boolean checkMorning(){
@@ -142,7 +154,7 @@ public class Week {
         if (contarTurnosDia(Turns.NI) == day.getNights()) // maximo numero de noches en el dia actual
             return false;
 
-        if (dia != 7 && dia != 8)
+        if (dia != 7 && dia != 8) // todo aun falta configurar las fechas
             if (contarCinco(Turns.NI) >= 1) // maximo noches por semana todo parametrizar
                 return false;
 
