@@ -1,58 +1,57 @@
 package org.gestion;
 import FuturasLibrerias.*;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-
-public class Week {
+public class Generador {
     private Turns[][] horario;
     private int numTrabajadores;
     private int media;
-    private DayOfWeek diaInicial;
     private Day day;
+    private Calendar fecha;
 
     private static final int DIAS_SEMANA = 7;
-    private static final String[] DIAS = new String[]{"MONDAY","TUESDAY","WEDNESDAY","THRUSDAY","FRIDAY","SATURDAY","SUNDAY"};
     private static int dia;
     private static int registro;
 
-    public Week(Day day, int media,int numTrabajadores) {
+    public Generador(Day day, int media, int numTrabajadores, Calendar fecha) {
         this.day = day;
         this.media = media;
         this.numTrabajadores = numTrabajadores;
         this.horario = new Turns[numTrabajadores][DIAS_SEMANA];
+        this.fecha = fecha;
     }
-    public void getFecha(int year){
-        LocalDate fecha = LocalDate.of(year, 1, 1);
-        // a partir del 1 de enero de x año
-        DayOfWeek dayOfWeek = fecha.getDayOfWeek();
-        System.out.println(dayOfWeek);
-    }
-
     public Turns[][] getHorario() {
         return horario;
     }
 
     public void rellenar(Turns[] turnos, int cantidad){
 
+        Calendar original = fecha.clone();
+        // guardo los datos de la fecha original
+
+
         int veces = cantidad * DIAS_SEMANA;
 
         for (registro = 0; registro < numTrabajadores; registro++) {
 
+            // fecha con los valores originales de la copia
+            fecha = original.clone();
 
             for (dia = 0; dia < DIAS_SEMANA ; dia++) {
 
                 if (horario[registro][dia] == null){
                     horario[registro][dia] = turnoDisponible(turnos);
                     veces--;
+                    fecha.incrementarDia();
                 }
-                if (veces == 0)
+                if (veces == 0) // todo quitar
                     break;
             }
             if (veces == 0) {
                 break;
             }
         }
+        fecha = original.clone();
+        // al final del bucle la fecha no cambiara sus valores originales
     }
     public void mostrarHorario(){
         for (int i = 0; i < horario.length; i++) {
@@ -86,9 +85,8 @@ public class Week {
                 if (turnoCorrecto(turno))
                     return turno;
             }
-            return (getDiaAnterior() == Turns.NI) // si no le corresponde ningun turno el dia sera libre o saliente
-                    ?Turns.SA
-                    :Turns.LI;
+            return (getDiaAnterior() == Turns.NI) ?Turns.SA:Turns.LI;
+        // si no le corresponde ningun turno el dia sera libre o saliente
     }
     public boolean turnoCorrecto(Turns turno){
 
@@ -116,14 +114,11 @@ public class Week {
             return false;
         }
 
-        if (contarCinco(Turns.MO) >= 3 ) { // maximo turnos por semana
+        if (ultimosDias(Turns.MO) >= 3 ) // maximo turnos por semana
             return false;
-        }
 
-        if (dia != 0) {
-            if (horario[registro][dia - 1] == Turns.NI) // si el dia anterior no es una noche todo comprobar
-                return false;
-        }
+        if (getDiaAnterior() == Turns.NI) // si el dia anterior no es una noche
+            return false;
 
         return true;
     }
@@ -137,14 +132,12 @@ public class Week {
             return false;
         }
 
-        if (contarCinco(Turns.AF) >= 4 ) { // maximo turnos por semana
+        if (ultimosDias(Turns.AF) >= 4 ) { // maximo turnos por semana
             return false;
         }
 
-        if (dia != 0) {
-            if (horario[registro][dia - 1] == Turns.NI) // si el dia anterior no es una noche todo comprobar
-                return false;
-        }
+        if (getDiaAnterior() == Turns.NI) // si el dia anterior no es una noche
+            return false;
 
         return true;
     }
@@ -154,21 +147,29 @@ public class Week {
         if (contarTurnosDia(Turns.NI) == day.getNights()) // maximo numero de noches en el dia actual
             return false;
 
-        if (dia != 7 && dia != 8) // todo aun falta configurar las fechas
-            if (contarCinco(Turns.NI) >= 1) // maximo noches por semana todo parametrizar
+        /*
+        if (!(fecha.getDiaSemana().equals("SATURDAY"))||!(fecha.getDiaSemana().equalsIgnoreCase("SUNDAY"))) {
+            if (ultimosDias(Turns.NI) >= 1) // maximo noches por semana todo parametrizar
+                return false;
+        }
+         */
+
+
+        if (!fecha.esFinSemana()) {  // si no es fin de semana no se tomara en cuenta los siguientes condicionales
+
+            if (ultimosDias(Turns.NI) >= 1) // maximo noches cada cinco dias
                 return false;
 
-        if (dia != 0) {
-            if (horario[registro][dia - 1] == Turns.NI) // si el dia anterior no es una noche todo comprobar
+            if (getDiaAnterior() == Turns.NI) // si el dia anterior no es una noche
                 return false;
         }
 
         if (Turns.horasTotales(horario[registro]) > media) // si supera la media de la semana
             return false;
 
-
         return true;
     }
+
     private int contarTurnosDia(Turns turno){ // contara los turnos del dia
         int result = 0;
         for (int i = 0; i < numTrabajadores; i++) {
@@ -189,7 +190,7 @@ public class Week {
         }
         return result;
     }
-    private int contarCinco(Turns turno){ // contara los turnos que hay en la semana
+    private int ultimosDias(Turns turno){ // contara los turnos que hay en la semana
         int diasAverifiar = 5; // se comprueba el numero de turnos de los ultimos 5 dias
 
         int result = 0;

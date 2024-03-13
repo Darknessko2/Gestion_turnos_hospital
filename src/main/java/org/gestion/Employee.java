@@ -33,6 +33,6 @@ public class Employee implements Comparator<Employee> {
 
     @Override
     public int compare(Employee o1, Employee o2) {
-        return o1.hours-o2.hours;
+        return o1.hours - o2.hours;
     }
 }
