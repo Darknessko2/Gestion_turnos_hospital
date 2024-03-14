@@ -33,21 +33,27 @@ public class App {
 
         LinkedList<Employee> dayEmployee = new LinkedList<>();
 
-        Calendar fecha = new Calendar(1,1,2024);
+        Calendar fecha = new Calendar(1,1,2021);
 
-        Day dia = new Day(2,2,2);
+        DatosDia dia = new DatosDia(2,2,2,11);
 
-        Generador generador = new Generador(dia,70,11,fecha);
+        Generador generador = new Generador(dia,23,fecha);
 
-        System.out.println("LU|MA|MI|JU|VI|SB|DM");
         generador.rellenar(new Turns[]{Turns.MO,Turns.NI},6);
         generador.rellenar(new Turns[]{Turns.AF},1);
         generador.rellenar(new Turns[]{Turns.AF,Turns.NI},4);
 
+        imprimirSemana(fecha);
         generador.mostrarHorario();
 
         //Day day = new Day(employees,6);
-
     }
-
+    public static void imprimirSemana(Calendar fecha){
+        Calendar copia = fecha.clone();
+        for (int i = 0; i < 7; i++) {
+            System.out.print(copia.getDiaSemana().substring(0,2)+"|");
+            copia.incrementarDia();
+        }
+        System.out.println();
+    }
 }

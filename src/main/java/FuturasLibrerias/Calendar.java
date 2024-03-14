@@ -83,6 +83,13 @@ public class Calendar {
         DayOfWeek dayOfWeek = fecha.getDayOfWeek();
         return dayOfWeek.toString();
     }
+    public String getDiaAnterior(){
+        LocalDate fecha = LocalDate.of(year,month,day);
+        LocalDate yesterday = fecha.minusDays(1);
+        DayOfWeek dayOfWeek = yesterday.getDayOfWeek();
+        return dayOfWeek.toString();
+
+    }
 
     public void mostrar(){
         System.out.println("Año : "+year +" Mes : "+month+" Dia : "+day);

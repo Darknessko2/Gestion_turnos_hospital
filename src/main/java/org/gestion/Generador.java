@@ -3,20 +3,18 @@ import FuturasLibrerias.*;
 
 public class Generador {
     private Turns[][] horario;
-    private int numTrabajadores;
     private int media;
-    private Day day;
+    private DatosDia datosDia;
     private Calendar fecha;
 
-    private static final int DIAS_SEMANA = 7;
+    private static final int DIAS_SEMANA = 5;
     private static int dia;
     private static int registro;
 
-    public Generador(Day day, int media, int numTrabajadores, Calendar fecha) {
-        this.day = day;
+    public Generador(DatosDia datosDia, int media, Calendar fecha) {
+        this.datosDia = datosDia;
         this.media = media;
-        this.numTrabajadores = numTrabajadores;
-        this.horario = new Turns[numTrabajadores][DIAS_SEMANA];
+        this.horario = new Turns[datosDia.getNumTrabajadores()][DIAS_SEMANA];
         this.fecha = fecha;
     }
     public Turns[][] getHorario() {
@@ -28,10 +26,9 @@ public class Generador {
         Calendar original = fecha.clone();
         // guardo los datos de la fecha original
 
-
         int veces = cantidad * DIAS_SEMANA;
 
-        for (registro = 0; registro < numTrabajadores; registro++) {
+        for (registro = 0; registro < datosDia.getNumTrabajadores(); registro++) {
 
             // fecha con los valores originales de la copia
             fecha = original.clone();
@@ -107,14 +104,14 @@ public class Generador {
 
     private boolean checkMorning(){
 
-        if (contarTurnosDia(Turns.MO) >= day.getMorning()) // maximo numero de mañanas en el dia actual
+        if (contarTurnosDia(Turns.MO) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
             return false;
 
         if (Turns.horasTotales(horario[registro]) >= media) { // si las horas total de la semana han superado la media
             return false;
         }
 
-        if (ultimosDias(Turns.MO) >= 3 ) // maximo turnos por semana
+        if (ultimosDias(Turns.MO,5) >= 3 ) // maximo turnos por semana
             return false;
 
         if (getDiaAnterior() == Turns.NI) // si el dia anterior no es una noche
@@ -125,14 +122,14 @@ public class Generador {
 
     private boolean checkTarde(){
 
-        if (contarTurnosDia(Turns.AF) == day.getAfternoon()) // maximo numero de tardes en el dia actual
+        if (contarTurnosDia(Turns.AF) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
             return false;
 
         if (Turns.horasTotales(horario[registro]) >= media) { // si ha superado la media
             return false;
         }
 
-        if (ultimosDias(Turns.AF) >= 4 ) { // maximo turnos por semana
+        if (ultimosDias(Turns.AF,5) >= 3) { // maximo turnos por semana
             return false;
         }
 
@@ -144,23 +141,22 @@ public class Generador {
 
     private boolean checkNoche(){ // todo pensar el problema a la hora de generar otra semana
 
-        if (contarTurnosDia(Turns.NI) == day.getNights()) // maximo numero de noches en el dia actual
+        if (contarTurnosDia(Turns.NI) == datosDia.getMaxNights()) // maximo numero de noches en el dia actual
             return false;
 
-        /*
-        if (!(fecha.getDiaSemana().equals("SATURDAY"))||!(fecha.getDiaSemana().equalsIgnoreCase("SUNDAY"))) {
-            if (ultimosDias(Turns.NI) >= 1) // maximo noches por semana todo parametrizar
-                return false;
-        }
-         */
+        if (fecha.esFinSemana()) {  // si no es fin de semana no se tomara en cuenta los siguientes condicionales
 
-
-        if (!fecha.esFinSemana()) {  // si no es fin de semana no se tomara en cuenta los siguientes condicionales
-
-            if (ultimosDias(Turns.NI) >= 1) // maximo noches cada cinco dias
+            if (getDiaAnterior() == Turns.SA)
                 return false;
 
-            if (getDiaAnterior() == Turns.NI) // si el dia anterior no es una noche
+            if (getDiaAnterior() == Turns.NI && fecha.getDiaAnterior().equals("FRIDAY")) {
+                return false;
+            }
+        }else{
+
+            if (ultimosDias(Turns.NI,5) >= 1) // maximo noches cada cinco dias
+                return false;
+            if (getDiaAnterior() == Turns.NI )// si el dia anterior no es una noche
                 return false;
         }
 
@@ -172,7 +168,7 @@ public class Generador {
 
     private int contarTurnosDia(Turns turno){ // contara los turnos del dia
         int result = 0;
-        for (int i = 0; i < numTrabajadores; i++) {
+        for (int i = 0; i < datosDia.getNumTrabajadores(); i++) {
             if (horario[i][dia] != null) {
                 if (turno == horario[i][dia])
                     result++;
@@ -190,12 +186,11 @@ public class Generador {
         }
         return result;
     }
-    private int ultimosDias(Turns turno){ // contara los turnos que hay en la semana
-        int diasAverifiar = 5; // se comprueba el numero de turnos de los ultimos 5 dias
-
+    private int ultimosDias(Turns turno,int diasAverificar){ // contara los turnos que hay en los ultimos dias
+         // se comprueba el numero de turnos de los ultimos 5 dias
         int result = 0;
 
-        for (int i = dia; i > (dia - diasAverifiar); i--) {
+        for (int i = dia; i > (dia - diasAverificar); i--) {
             if (i >= 0)
                 if(horario[registro][i] == turno)
                     result++;
