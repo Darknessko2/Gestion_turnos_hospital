@@ -8,42 +8,39 @@ public class App {
     public static void main(String[] args) {
         LinkedList<Employee> employees = new LinkedList<>();
 
-        employees.add(new Employee("M-N-1", new Turns[]{Turns.MO, Turns.NI}, 0));
+        employees.add(new Employee("M-N-1", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("M-N-2", new Turns[]{Turns.MO, Turns.NI}, 0));
+        employees.add(new Employee("M-N-2", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("M-N-3", new Turns[]{Turns.MO, Turns.NI}, 0));
+        employees.add(new Employee("M-N-3", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("M-N-4", new Turns[]{Turns.MO, Turns.NI}, 0));
+        employees.add(new Employee("M-N-4", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("M-N-5", new Turns[]{Turns.MO, Turns.NI}, 0));
+        employees.add(new Employee("M-N-5", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-1", new Turns[]{Turns.AF, Turns.NI}, 0));
+        employees.add(new Employee("T-N-1", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-2", new Turns[]{Turns.AF, Turns.NI}, 0));
+        employees.add(new Employee("T-N-2", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-3", new Turns[]{Turns.AF, Turns.NI}, 0));
+        employees.add(new Employee("T-N-3", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-4", new Turns[]{Turns.AF, Turns.NI}, 0));
+        employees.add(new Employee("T-N-4", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-5", new Turns[]{Turns.AF, Turns.NI}, 0));
+        employees.add(new Employee("T-N-5", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-6", new Turns[]{Turns.AF}, 0));
+        employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON}, 0));
 
 
         LinkedList<Employee> dayEmployee = new LinkedList<>();
 
-        Calendar fecha = new Calendar(1,1,2021);
+        Calendar fecha = new Calendar(1,1,2020);
 
-        DatosDia dia = new DatosDia(2,2,2,11);
+        DatosDia dia = new DatosDia(2,2,2);
 
-        Generador generador = new Generador(dia,23,fecha);
-
-        generador.rellenar(new Turns[]{Turns.MO,Turns.NI},6);
-        generador.rellenar(new Turns[]{Turns.AF},1);
-        generador.rellenar(new Turns[]{Turns.AF,Turns.NI},4);
+        Generador generador = new Generador(dia,25,fecha,employees);
 
         imprimirSemana(fecha);
+        generador.rellenar();
         generador.mostrarHorario();
 
         //Day day = new Day(employees,6);
