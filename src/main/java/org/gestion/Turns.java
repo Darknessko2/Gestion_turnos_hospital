@@ -1,10 +1,10 @@
 package org.gestion;
 
 public enum Turns {
-    NI(10),
-    MO(7),
-    AF(7),
-    LI(0),
+    NIGHT(10),
+    MORNING(7),
+    AFTERNOON(7),
+    LIBRE(0),
     SALIENTE(0);
 
     private int horas;
