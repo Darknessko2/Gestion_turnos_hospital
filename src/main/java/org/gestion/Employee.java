@@ -11,11 +11,14 @@ public class Employee implements Comparator<Employee> {
     public Employee(String code, Turns[] turns, int hours) {
         this.code = code;
         this.turns = turns;
-        this.hours = hours;
+        this.hours = -140;
     }
 
     public String getCode() {
         return code;
+    }
+    public void agregarHoras(Turns[] mes){
+        hours += Turns.horasTotales(mes);
     }
 
     public Turns[] getTurns() {

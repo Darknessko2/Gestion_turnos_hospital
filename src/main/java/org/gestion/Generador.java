@@ -1,6 +1,7 @@
 package org.gestion;
 import FuturasLibrerias.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Generador {
@@ -13,6 +14,7 @@ public class Generador {
     private static final int DIAS_SEMANA = 5;
     private static int dia;
     private static int registro;
+    private static int valorNumerico = 0;
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
@@ -27,6 +29,9 @@ public class Generador {
 
     public void rellenar(){
 
+        int mediaOriginal = media;
+
+
         Calendar original = fecha.clone();
         // guardo los datos de la fecha original
 
@@ -34,17 +39,29 @@ public class Generador {
 
             // fecha con los valores originales de la copia
             fecha = original.clone();
+            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
+                media = media / 2;
+            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
+                media = media / 2;
+            }
 
-            for (dia = 0; dia < DIAS_SEMANA ; dia++) {
+            for (dia = 0; dia < (DIAS_SEMANA * valorNumerico) ; dia++) {
 
                 if (horario[registro][dia] == null){
                     horario[registro][dia] = turnoDisponible(employees.get(registro).getTurns());
                     fecha.incrementarDia();
                 }
             }
+            media = mediaOriginal;
         }
         fecha = original.clone();
+        valorNumerico++;
         // al final del bucle la fecha no cambiara sus valores originales
+    }
+    public void incrementarRango(){
+        for (int re = 0; re < employees.size(); re++) {
+            horario[re] =  Arrays.copyOf(horario[re],horario[re].length + DIAS_SEMANA);
+        }
     }
     public void mostrarHorario(){
         for (int i = 0; i < horario.length; i++) {
@@ -69,7 +86,8 @@ public class Generador {
         else
             color = Color.CYAN;
 
-        System.out.print(Color.str(turno.toString().substring(0,2)+" ",color));
+        if (turno != null)
+            System.out.print(Color.str(turno.toString().substring(0,2)+" ",color));
     }
     public Turns turnoDisponible(Turns[] turnos){ // devolvera el turno correspondiente
 
@@ -100,10 +118,11 @@ public class Generador {
 
     private boolean checkMorning(){
 
+
         if (contarTurnosDia(Turns.MORNING) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
             return false;
 
-        if (Turns.horasTotales(horario[registro]) >= media) { // si las horas total de la semana han superado la media
+        if (mediaUltimosDias(Turns.MORNING) >= media) { // si las horas total de la semana han superado la media
             return false;
         }
 
@@ -118,10 +137,11 @@ public class Generador {
 
     private boolean checkTarde(){
 
+
         if (contarTurnosDia(Turns.AFTERNOON) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
             return false;
 
-        if (Turns.horasTotales(horario[registro]) >= media) { // si ha superado la media
+        if (mediaUltimosDias(Turns.AFTERNOON) >= media) { // si ha superado la media
             return false;
         }
 
@@ -156,10 +176,21 @@ public class Generador {
                 return false;
         }
 
-        if (Turns.horasTotales(horario[registro]) > media) // si supera la media de la semana
+        if (mediaUltimosDias(Turns.MORNING) >= media) // si supera la media de la semana
             return false;
 
         return true;
+    }
+
+    private int mediaUltimosDias(Turns turno){ // comprobara las horas realizadas los ultimos cinco dias
+        int diasAverificar = 7;
+        int result = 0;
+        for (int i = dia; i > (dia - diasAverificar) ; i--) {
+            if (i >= 0)
+                if (horario[registro][i] == turno)
+                    result+=horario[registro][i].getHours();
+        }
+        return result;
     }
 
     private int contarTurnosDia(Turns turno){ // contara los turnos del dia

@@ -22,13 +22,13 @@ public class App {
 
         employees.add(new Employee("T-N-2", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
+        employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON}, 0));
         employees.add(new Employee("T-N-3", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
         employees.add(new Employee("T-N-4", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
         employees.add(new Employee("T-N-5", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON}, 0));
 
 
         LinkedList<Employee> dayEmployee = new LinkedList<>();
@@ -37,17 +37,13 @@ public class App {
 
         DatosDia dia = new DatosDia(2,2,2);
 
-        Generador generador = new Generador(dia,25,fecha,employees);
+        Gestion gestion = new Gestion(dia,employees,fecha);
+        gestion.agregarHoras();
 
-        imprimirSemana(fecha);
-        generador.rellenar();
-        generador.mostrarHorario();
-
-        //Day day = new Day(employees,6);
     }
     public static void imprimirSemana(Calendar fecha){
         Calendar copia = fecha.clone();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 30; i++) {
             System.out.print(copia.getDiaSemana().substring(0,2)+"|");
             copia.incrementarDia();
         }
