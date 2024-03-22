@@ -14,7 +14,7 @@ public class Generador {
     private static final int DIAS_SEMANA = 5;
     private static int dia;
     private static int registro;
-    private static int valorNumerico = 0;
+    private static int valorNumerico = 1;
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
@@ -49,6 +49,7 @@ public class Generador {
 
                 if (horario[registro][dia] == null){
                     horario[registro][dia] = turnoDisponible(employees.get(registro).getTurns());
+                    employees.get(registro).agregarHoras(horario[registro][dia]);
                     fecha.incrementarDia();
                 }
             }
@@ -57,6 +58,15 @@ public class Generador {
         fecha = original.clone();
         valorNumerico++;
         // al final del bucle la fecha no cambiara sus valores originales
+    }
+    public void invertir(){
+            int count1 = 0;
+            int count2 = horario.length-1;
+            do {
+                Turns[] temp = horario[count1];
+                horario[count1++] = horario[count2];
+                horario[count2--] = temp;
+            }while (count1 < count2);
     }
     public void incrementarRango(){
         for (int re = 0; re < employees.size(); re++) {
@@ -160,21 +170,17 @@ public class Generador {
         if (contarTurnosDia(Turns.NIGHT) == datosDia.getMaxNights()) // maximo numero de noches en el dia actual
             return false;
 
-        if (fecha.esFinSemana()) {  // si no es fin de semana no se tomara en cuenta los siguientes condicionales
+        if (getDiaAnterior() == Turns.SALIENTE)
+            return false;
 
-            if (getDiaAnterior() == Turns.SALIENTE)
-                return false;
-
-            if (getDiaAnterior() == Turns.NIGHT && fecha.getDiaAnterior().equals("FRIDAY")) {
-                return false;
-            }
-        }else{
-
-            if (ultimosDias(Turns.NIGHT,5) >= 1) // maximo noches cada cinco dias
-                return false;
-            if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
-                return false;
+        if (getDiaAnterior() == Turns.NIGHT && fecha.getDiaAnterior().equals("FRIDAY")) {
+            return false;
         }
+
+        if (ultimosDias(Turns.NIGHT,4) >= 1) // maximo noches cada cinco dias
+            return false;
+        if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
+            return false;
 
         if (mediaUltimosDias(Turns.MORNING) >= media) // si supera la media de la semana
             return false;

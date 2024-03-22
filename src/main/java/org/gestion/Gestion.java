@@ -2,6 +2,7 @@ package org.gestion;
 
 import FuturasLibrerias.Calendar;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,27 +18,15 @@ public class Gestion {
         this.empleados = empleados;
         this.fecha = fecha;
     }
-
     public void agregarHoras(){
-        generador.rellenar();
+        for (int i = 0; i < 6; i++) {
+            generador.incrementarRango();
+            generador.rellenar();
+            generador.invertir();
+            Collections.reverse(empleados);
 
-        generador.incrementarRango();
-        generador.rellenar();
-
-        generador.incrementarRango();
-        generador.rellenar();
-
-        generador.incrementarRango();
-        generador.rellenar();
-
-        generador.incrementarRango();
-        generador.rellenar();
-
-        generador.incrementarRango();
-        generador.rellenar();
-
-        generador.incrementarRango();
-        generador.rellenar();
+        }
         generador.mostrarHorario();
     }
+
 }

@@ -3,7 +3,7 @@ package org.gestion;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Employee implements Comparator<Employee> {
+public class Employee implements Comparable<Employee> {
     private String code;
     private Turns[] turns;
     private int hours;
@@ -17,8 +17,8 @@ public class Employee implements Comparator<Employee> {
     public String getCode() {
         return code;
     }
-    public void agregarHoras(Turns[] mes){
-        hours += Turns.horasTotales(mes);
+    public void agregarHoras(Turns dia){
+        hours += dia.getHours();
     }
 
     public Turns[] getTurns() {
@@ -33,9 +33,12 @@ public class Employee implements Comparator<Employee> {
     public String toString() {
         return "Employee{" + "code='" + code + '\'' + ", turns=" + Arrays.toString(turns) + ", hours=" + hours + '}';
     }
-
     @Override
-    public int compare(Employee o1, Employee o2) {
-        return o1.hours - o2.hours;
+    public int compareTo(Employee o) {
+        int comparacionCodigo = this.code.compareTo(o.code);
+        if (comparacionCodigo != 0)
+            return comparacionCodigo;
+
+        return this.hours -o.hours;
     }
 }
