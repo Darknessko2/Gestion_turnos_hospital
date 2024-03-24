@@ -31,13 +31,17 @@ public class App {
 
         employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
+        Collections.reverse(employees);
+
         Calendar fecha = new Calendar(1, 1, 2020);
 
         DatosDia dia = new DatosDia(2, 2, 2);
 
         Gestion gestion = new Gestion(dia, employees, fecha);
 
+        imprimirSemana(fecha);
         gestion.agregarHoras();
+
 
     }
     public static void imprimirSemana(Calendar fecha){

@@ -147,7 +147,6 @@ public class Generador {
 
     private boolean checkTarde(){
 
-
         if (contarTurnosDia(Turns.AFTERNOON) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
             return false;
 
@@ -155,9 +154,9 @@ public class Generador {
             return false;
         }
 
-        if (ultimosDias(Turns.AFTERNOON,5) >= 3) { // maximo turnos por semana
+            if (ultimosDias(Turns.AFTERNOON,5) >= 3) { // maximo turnos por semana
             return false;
-        }
+         }
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
@@ -173,16 +172,10 @@ public class Generador {
         if (getDiaAnterior() == Turns.SALIENTE)
             return false;
 
-        if (getDiaAnterior() == Turns.NIGHT && fecha.getDiaAnterior().equals("FRIDAY")) {
-            return false;
-        }
-
         if (ultimosDias(Turns.NIGHT,4) >= 1) // maximo noches cada cinco dias
             return false;
-        if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
-            return false;
 
-        if (mediaUltimosDias(Turns.MORNING) >= media) // si supera la media de la semana
+        if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
             return false;
 
         return true;
