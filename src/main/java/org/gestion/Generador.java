@@ -68,6 +68,8 @@ public class Generador {
                 horario[count2--] = temp;
             }while (count1 < count2);
     }
+
+
     public void incrementarRango(){
         for (int re = 0; re < employees.size(); re++) {
             horario[re] =  Arrays.copyOf(horario[re],horario[re].length + DIAS_SEMANA);

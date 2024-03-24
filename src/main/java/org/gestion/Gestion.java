@@ -18,13 +18,14 @@ public class Gestion {
         this.empleados = empleados;
         this.fecha = fecha;
     }
-    public void agregarHoras(){
-        for (int i = 0; i < 6; i++) {
+    public void agregarHoras() {
+        for (int i = 0; i < 2; i++) {
             generador.incrementarRango();
+            Collections.sort(empleados);
+
             generador.rellenar();
             generador.invertir();
             Collections.reverse(empleados);
-
         }
         generador.mostrarHorario();
     }

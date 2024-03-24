@@ -11,7 +11,7 @@ public class Employee implements Comparable<Employee> {
     public Employee(String code, Turns[] turns, int hours) {
         this.code = code;
         this.turns = turns;
-        this.hours = -140;
+        this.hours = hours;
     }
 
     public String getCode() {
@@ -35,10 +35,10 @@ public class Employee implements Comparable<Employee> {
     }
     @Override
     public int compareTo(Employee o) {
-        int comparacionCodigo = this.code.compareTo(o.code);
-        if (comparacionCodigo != 0)
-            return comparacionCodigo;
+        if (Arrays.equals(this.turns,o.turns)) // se ordenan de menor a mayour
+            return this.hours -o.hours;
+        else
+            return 0;
 
-        return this.hours -o.hours;
     }
 }
