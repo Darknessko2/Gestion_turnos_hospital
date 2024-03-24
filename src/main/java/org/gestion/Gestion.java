@@ -9,25 +9,25 @@ import java.util.List;
 public class Gestion {
     private Generador generador;
     private DatosDia datos;
-    private LinkedList<Employee> empleados;
     private Calendar fecha;
 
-    public Gestion(DatosDia datos, LinkedList<Employee> empleados, Calendar fecha) {
-        this.generador = new Generador(datos,30,fecha,empleados);
+    public Gestion(DatosDia datos, Calendar fecha, Generador generador) {
+        this.generador = generador;
         this.datos = datos;
-        this.empleados = empleados;
         this.fecha = fecha;
     }
-    public void agregarHoras() {
+    public void agregarHoras(LinkedList<Employee> empleados) {
+        LinkedList<Employee> ultimaLista= new LinkedList<>(empleados);
         for (int i = 0; i < 2; i++) {
-            generador.incrementarRango();
             Collections.sort(empleados);
-
+            generador.ordenarHorario(ultimaLista);
             generador.rellenar();
-            generador.invertir();
-            Collections.reverse(empleados);
+            ultimaLista = new LinkedList<>(empleados);
         }
+        Collections.sort(empleados);
+        generador.ordenarHorario(ultimaLista);
         generador.mostrarHorario();
+        App.mostrarEmpleados();
     }
 
 }

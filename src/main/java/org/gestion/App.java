@@ -2,6 +2,7 @@ package org.gestion;
 
 import FuturasLibrerias.Calendar;
 
+import java.net.StandardSocketOptions;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -37,14 +38,13 @@ public class App {
 
         DatosDia dia = new DatosDia(2, 2, 2);
 
-        Gestion gestion = new Gestion(dia, employees, fecha);
+        Generador generador = new Generador(dia,30,fecha,employees);
+
+        Gestion gestion = new Gestion(dia, fecha,generador);
 
         imprimirSemana(fecha);
-        gestion.agregarHoras();
+        gestion.agregarHoras(employees);
 
-        Collections.sort(employees);
-
-        mostrarEmpleados();
 
     }
     public static void mostrarEmpleados(){

@@ -1,8 +1,10 @@
 package org.gestion;
 import FuturasLibrerias.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Generador {
     private Turns[][] horario;
@@ -19,10 +21,17 @@ public class Generador {
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
         this.media = media;
-        this.horario = new Turns[employees.size()][DIAS_SEMANA];
+        this.horario = new Turns[employees.size()][30];
         this.fecha = fecha;
         this.employees = employees;
     }
+//    public void init(){
+//        for (int i = 0; i < horario.length; i++) {
+//            for (int j = 0; j < horario[i].length; j++) {
+//                horario[i] = employees.get(i).getTurns();
+//            }
+//        }
+//    }
     public Turns[][] getHorario() {
         return horario;
     }
@@ -69,12 +78,37 @@ public class Generador {
             }while (count1 < count2);
     }
 
+    public void ordenarHorario( LinkedList<Employee> ultimaLista){
+        List<Integer> indices = new ArrayList<>();
+        if (ultimaLista != null) {
+            for (int i = 0; i < employees.size(); i++) {
+                if (!employees.get(i).equals(ultimaLista.get(i))) {
 
-    public void incrementarRango(){
-        for (int re = 0; re < employees.size(); re++) {
-            horario[re] =  Arrays.copyOf(horario[re],horario[re].length + DIAS_SEMANA);
+                    int index = getIndexHorario(ultimaLista,employees.get(i));
+
+                    if (i <= index ) {
+                        Turns[] temp = horario[index];
+                        horario[index] = horario[i];
+                        horario[i] = temp;
+                    }
+
+//                    if (i <= index ) { // si el indice es menor se duplicara horarios
+//                        Turns[] temp = horario[i];
+//                        horario[i] = horario[index];
+//                        horario[index] = temp;
+//                    }
+                }
+            }
         }
     }
+    private int getIndexHorario(LinkedList<Employee> ultimaLista, Employee employee){
+        for (int i = 0; i < ultimaLista.size(); i++) {
+            if (ultimaLista.get(i).equals(employee))
+                return i;
+        }
+        return -1;
+    }
+
     public void mostrarHorario(){
         for (int i = 0; i < horario.length; i++) {
             for (int j = 0; j < horario[i].length; j++) {

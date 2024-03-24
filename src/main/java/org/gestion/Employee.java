@@ -2,6 +2,7 @@ package org.gestion;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Employee implements Comparable<Employee> {
     private String code;
@@ -27,6 +28,21 @@ public class Employee implements Comparable<Employee> {
 
     public int getHours() {
         return hours;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        Employee employee = (Employee) object;
+        return Objects.equals(code, employee.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
     }
 
     @Override
