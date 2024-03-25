@@ -21,17 +21,18 @@ public class Generador {
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
         this.media = media;
-        this.horario = new Turns[employees.size()][30];
+        this.horario = new Turns[employees.size()][60];
         this.fecha = fecha;
         this.employees = employees;
+        init();
     }
-//    public void init(){
-//        for (int i = 0; i < horario.length; i++) {
-//            for (int j = 0; j < horario[i].length; j++) {
-//                horario[i] = employees.get(i).getTurns();
-//            }
-//        }
-//    }
+    public void init(){
+        for (int i = 0; i < horario.length; i++) {
+            for (int j = 0; j < horario[i].length; j++) {
+                horario[i] = employees.get(i).getHorariosEmpleado();
+            }
+        }
+    }
     public Turns[][] getHorario() {
         return horario;
     }
@@ -68,46 +69,46 @@ public class Generador {
         valorNumerico++;
         // al final del bucle la fecha no cambiara sus valores originales
     }
-    public void invertir(){
-            int count1 = 0;
-            int count2 = horario.length-1;
-            do {
-                Turns[] temp = horario[count1];
-                horario[count1++] = horario[count2];
-                horario[count2--] = temp;
-            }while (count1 < count2);
+    public void reOrganizar(){
+        for (int i = 0; i < horario.length; i++) {
+            horario[i] = employees.get(i).getHorariosEmpleado();
+        }
     }
+//    public void invertir(){
+//            int count1 = 0;
+//            int count2 = horario.length-1;
+//            do {
+//                Turns[] temp = horario[count1];
+//                horario[count1++] = horario[count2];
+//                horario[count2--] = temp;
+//            }while (count1 < count2);
+//    }
 
-    public void ordenarHorario( LinkedList<Employee> ultimaLista){
-        List<Integer> indices = new ArrayList<>();
-        if (ultimaLista != null) {
-            for (int i = 0; i < employees.size(); i++) {
-                if (!employees.get(i).equals(ultimaLista.get(i))) {
-
-                    int index = getIndexHorario(ultimaLista,employees.get(i));
-
-                    if (i <= index ) {
-                        Turns[] temp = horario[index];
-                        horario[index] = horario[i];
-                        horario[i] = temp;
-                    }
-
-//                    if (i <= index ) { // si el indice es menor se duplicara horarios
-//                        Turns[] temp = horario[i];
-//                        horario[i] = horario[index];
-//                        horario[index] = temp;
+//    public void ordenarHorario( LinkedList<Employee> ultimaLista){
+//        List<Integer> indices = new ArrayList<>();
+//        if (ultimaLista != null) {
+//            for (int i = 0; i < employees.size(); i++) {
+//                if (!employees.get(i).equals(ultimaLista.get(i))) {
+//
+//                    int index = getIndexHorario(ultimaLista,employees.get(i));
+//
+//                    if (i <= index ) {
+//                        Turns[] temp = horario[index];
+//                        horario[index] = horario[i];
+//                        horario[i] = temp;
 //                    }
-                }
-            }
-        }
-    }
-    private int getIndexHorario(LinkedList<Employee> ultimaLista, Employee employee){
-        for (int i = 0; i < ultimaLista.size(); i++) {
-            if (ultimaLista.get(i).equals(employee))
-                return i;
-        }
-        return -1;
-    }
+//
+//                }
+//            }
+//        }
+//    }
+//    private int getIndexHorario(LinkedList<Employee> ultimaLista, Employee employee){
+//        for (int i = 0; i < ultimaLista.size(); i++) {
+//            if (ultimaLista.get(i).equals(employee))
+//                return i;
+//        }
+//        return -1;
+//    }
 
     public void mostrarHorario(){
         for (int i = 0; i < horario.length; i++) {
@@ -190,9 +191,9 @@ public class Generador {
             return false;
         }
 
-            if (ultimosDias(Turns.AFTERNOON,5) >= 3) { // maximo turnos por semana
+        if (ultimosDias(Turns.AFTERNOON, 5) >= 3) { // maximo turnos por semana
             return false;
-         }
+        }
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;

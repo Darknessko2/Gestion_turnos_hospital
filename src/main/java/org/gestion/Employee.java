@@ -8,11 +8,17 @@ public class Employee implements Comparable<Employee> {
     private String code;
     private Turns[] turns;
     private int hours;
+    private Turns[] horariosEmpleado;
 
     public Employee(String code, Turns[] turns, int hours) {
         this.code = code;
         this.turns = turns;
         this.hours = hours;
+        this.horariosEmpleado = new Turns[60];
+    }
+
+    public Turns[] getHorariosEmpleado() {
+        return horariosEmpleado;
     }
 
     public String getCode() {

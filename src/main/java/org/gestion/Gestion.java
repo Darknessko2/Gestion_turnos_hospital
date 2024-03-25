@@ -18,14 +18,12 @@ public class Gestion {
     }
     public void agregarHoras(LinkedList<Employee> empleados) {
         LinkedList<Employee> ultimaLista= new LinkedList<>(empleados);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 6; i++) {
             Collections.sort(empleados);
-            generador.ordenarHorario(ultimaLista);
+            generador.reOrganizar();
             generador.rellenar();
             ultimaLista = new LinkedList<>(empleados);
         }
-        Collections.sort(empleados);
-        generador.ordenarHorario(ultimaLista);
         generador.mostrarHorario();
         App.mostrarEmpleados();
     }
