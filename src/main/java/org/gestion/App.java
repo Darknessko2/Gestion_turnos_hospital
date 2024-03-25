@@ -38,7 +38,7 @@ public class App {
 
         DatosDia dia = new DatosDia(2, 2, 2);
 
-        Generador generador = new Generador(dia,30,fecha,employees);
+        Generador generador = new Generador(dia,140,fecha,employees);
 
         Gestion gestion = new Gestion(dia, fecha,generador);
 

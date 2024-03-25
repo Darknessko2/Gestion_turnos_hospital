@@ -24,6 +24,8 @@ public class Gestion {
             generador.rellenar();
             ultimaLista = new LinkedList<>(empleados);
         }
+        Collections.sort(empleados);
+        generador.reOrganizar();
         generador.mostrarHorario();
         App.mostrarEmpleados();
     }

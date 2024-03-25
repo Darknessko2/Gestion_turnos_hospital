@@ -20,7 +20,7 @@ public class Generador {
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
-        this.media = media;
+        this.media = media / 6;
         this.horario = new Turns[employees.size()][60];
         this.fecha = fecha;
         this.employees = employees;
@@ -42,30 +42,36 @@ public class Generador {
         int mediaOriginal = media;
 
 
-        Calendar original = fecha.clone();
         // guardo los datos de la fecha original
 
         for (registro = 0; registro < employees.size(); registro++) {
 
             // fecha con los valores originales de la copia
-            fecha = original.clone();
+
             if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
                 media = media / 2;
             } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
                 media = media / 2;
             }
 
+            Calendar fechaOriginal = fecha.clone();
+
+            fecha = fechaOriginal.clone();
+
             for (dia = 0; dia < (DIAS_SEMANA * valorNumerico) ; dia++) {
 
                 if (horario[registro][dia] == null){
+//                    mostrarHorario();
+//                    System.out.println("-".repeat(100));
+//                    System.out.println(fecha.getDiaSemana());
                     horario[registro][dia] = turnoDisponible(employees.get(registro).getTurns());
                     employees.get(registro).agregarHoras(horario[registro][dia]);
-                    fecha.incrementarDia();
                 }
+                fecha.incrementarDia();
             }
+            fecha = fechaOriginal.clone();
             media = mediaOriginal;
         }
-        fecha = original.clone();
         valorNumerico++;
         // al final del bucle la fecha no cambiara sus valores originales
     }
@@ -111,13 +117,18 @@ public class Generador {
 //    }
 
     public void mostrarHorario(){
+        int dias = 30;
+        int horas = 0;
         for (int i = 0; i < horario.length; i++) {
             for (int j = 0; j < horario[i].length; j++) {
                 show(horario[i][j]);
             }
             System.out.print("HORAS -> "+Turns.horasTotales(horario[i]));
             System.out.println();
+            horas += Turns.horasTotales(horario[i]);
         }
+        System.out.println("Horas totales "+horas);
+        System.out.println("Horas esperadas"+48*dias);
     }
     public void show(Turns turno){
         Color color;
@@ -173,8 +184,8 @@ public class Generador {
             return false;
         }
 
-        if (ultimosDias(Turns.MORNING,5) >= 3 ) // maximo turnos por semana
-            return false;
+//        if (ultimosDias(Turns.MORNING,5) >= 3 ) // maximo turnos por semana
+//            return false;
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
@@ -182,23 +193,57 @@ public class Generador {
         return true;
     }
 
-    private boolean checkTarde(){
+    private boolean checkTarde() {
+
 
         if (contarTurnosDia(Turns.AFTERNOON) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
             return false;
 
-        if (mediaUltimosDias(Turns.AFTERNOON) >= media) { // si ha superado la media
-            return false;
+        if (!fecha.esFinSemana() && diasTrabajando(4) <= 4){
+            if (mediaUltimosDias(Turns.AFTERNOON) >= media) { // si ha superado la media
+                return false;
+            }
+        }else {
+//            if (diasTrabajando(5) <= 3 && fecha.esFinSemana())
+//                return false;
+
+            if (fecha.getDiaSemana().equals("SATURDAY") && diasTrabajando(5) >3) // si los ultimos 4 dias ha trabajado 3 dias
+                return false;
+
+            if (fecha.getDiaSemana().equals("SUNDAY")) {
+                if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
+                    return false;
+            }
         }
 
-        if (ultimosDias(Turns.AFTERNOON, 5) >= 3) { // maximo turnos por semana
-            return false;
-        }
+
+
+//            if (ultimosDias(Turns.AFTERNOON, 5) >= 5)
+//                return false;
+
+//        if (ultimosDias(Turns.AFTERNOON, 5) >= 3) { // maximo turnos por semana
+//            return false;
+//        }
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
 
+        if (fecha.getDiaSemana().equals("SUNDAY")) {
+            if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
+                return false;
+        }
+
         return true;
+    }
+    private int diasTrabajando(int diasAverificar){
+        int result = 0;
+        for (int i = dia; i > (dia - diasAverificar); i--) {
+            if (i >= 0){
+                if (!(horario[registro][i] == Turns.LIBRE) && !(horario[registro][i] == Turns.SALIENTE))
+                    result++;
+            }
+        }
+        return result;
     }
 
     private boolean checkNoche(){ // todo pensar el problema a la hora de generar otra semana
@@ -219,7 +264,7 @@ public class Generador {
     }
 
     private int mediaUltimosDias(Turns turno){ // comprobara las horas realizadas los ultimos cinco dias
-        int diasAverificar = 7;
+        int diasAverificar = 5;
         int result = 0;
         for (int i = dia; i > (dia - diasAverificar) ; i--) {
             if (i >= 0)
