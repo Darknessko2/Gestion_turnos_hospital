@@ -89,8 +89,9 @@ public class Generador {
 
 
     public void mostrarHorario(int index){
+        App.imprimirSemana(fecha);
         for (int i = 0; i < horario.length; i++) {
-            for (int j = index; j < (index+30); j++) {
+            for (int j = index; j < (index+28); j++) {
                 show(horario[i][j]);
             }
             System.out.print("HORAS -> "+Turns.horasTotales(horario[i]));
@@ -176,15 +177,18 @@ public class Generador {
 
     private boolean checkMorning(){
 
+        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
+            return false;
+
 
         if (contarTurnosDia(Turns.MORNING) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
             return false;
 
-        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
-            return false;
+
 
         if (!fecha.esFinSemana()){
-            if (mediaUltimosDias() > media) { // si ha superado la media
+
+            if (mediaUltimosDias() > media && (ultimosDias(Turns.MORNING,5) >= 4) ) { // si ha superado la media
                 return false;
             }
 

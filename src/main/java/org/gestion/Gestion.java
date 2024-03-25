@@ -26,12 +26,16 @@ public class Gestion {
             generador.reOrganizar();
             generador.rellenar();
         }
+
+        App.imprimirSemana(fecha);
         generador.mostrarHorario(0);
         numeros(0);
-        generador.mostrarHorario(30);
-        numeros(30);
-        generador.mostrarHorario(60);
-        numeros(60);
+
+        generador.mostrarHorario(28);
+        numeros(28);
+
+        generador.mostrarHorario(56);
+        numeros(56);
 
         App.mostrarEmpleados();
     }

@@ -34,7 +34,7 @@ public class App {
 
         employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        Calendar fecha = new Calendar(1, 1, 2010 );
+        Calendar fecha = new Calendar(1, 1, 2004);
 
         DatosDia dia = new DatosDia(2, 2, 2);
 
@@ -42,7 +42,6 @@ public class App {
 
         Gestion gestion = new Gestion(dia, fecha,generador);
 
-        imprimirSemana(fecha);
         gestion.agregarHoras(employees);
 
 
