@@ -18,21 +18,21 @@ public class Gestion {
         this.fecha = fecha;
     }
     public void agregarHoras(LinkedList<Employee> empleados) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 18; i++) {
             Collections.sort(empleados);
-            if (i % 2 == 0){
+            if (i %2 == 0)
                 Collections.reverse(empleados);
-            }
+
             generador.reOrganizar();
             generador.rellenar();
         }
-        generador.mostrarHorario();
         numeros();
+        generador.mostrarHorario();
+
         App.mostrarEmpleados();
-        generador.mostrarHoras();
     }
     public void numeros(){
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 90; i++) {
             if (generador.verificar(i))
                 System.out.print(String.format("%02d|", i));
             else

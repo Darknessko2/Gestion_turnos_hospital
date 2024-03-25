@@ -181,8 +181,6 @@ public class Generador {
         if (contarTurnosDia(Turns.MORNING) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
             return false;
 
-
-
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
 
@@ -190,8 +188,10 @@ public class Generador {
             if (mediaUltimosDias() > media) { // si ha superado la media
                 return false;
             }
+
             if (ultimosDias(Turns.MORNING,3) >= 3 ) // maximo turnos por semana
                 return false;
+
 
         }else {
             if (dia >= 4) {
@@ -259,7 +259,7 @@ public class Generador {
         int result = 0;
         for (int i = dia; i > (dia - diasAverificar); i--) {
             if (i >= 0){
-                if (horario[registro][i] == Turns.LIBRE || horario[result][i] == Turns.SALIENTE )
+                if (horario[registro][i] == Turns.LIBRE || horario[registro][i] == Turns.SALIENTE )
                      result++;
             }
         }
@@ -267,6 +267,7 @@ public class Generador {
     }
 
     private boolean checkNoche(){ // todo pensar el problema a la hora de generar otra semana
+
 
         if (contarTurnosDia(Turns.NIGHT) == datosDia.getMaxNights()) // maximo numero de noches en el dia actual
             return false;
@@ -279,9 +280,14 @@ public class Generador {
             return false;
 
         if (dia >=5) {
-            if (diasLibres(6) < 1)
+//            if (registro == )
+
+            if (diasLibres(7) < 1)
                 return false;
         }
+
+        if (contarTurnosDia(Turns.NIGHT) == 1 && registro < 6) // wtf
+            return false;
 
         return true;
     }
