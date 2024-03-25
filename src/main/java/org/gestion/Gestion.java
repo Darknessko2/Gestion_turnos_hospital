@@ -26,13 +26,17 @@ public class Gestion {
             generador.reOrganizar();
             generador.rellenar();
         }
-        numeros();
-        generador.mostrarHorario();
+        generador.mostrarHorario(0);
+        numeros(0);
+        generador.mostrarHorario(30);
+        numeros(30);
+        generador.mostrarHorario(60);
+        numeros(60);
 
         App.mostrarEmpleados();
     }
-    public void numeros(){
-        for (int i = 0; i < 90; i++) {
+    public void numeros(int index){
+        for (int i = index; i < (index+30); i++) {
             if (generador.verificar(i))
                 System.out.print(String.format("%02d|", i));
             else

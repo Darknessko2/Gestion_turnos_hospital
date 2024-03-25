@@ -88,15 +88,14 @@ public class Generador {
 //    }
 
 
-    public void mostrarHorario(){
+    public void mostrarHorario(int index){
         for (int i = 0; i < horario.length; i++) {
-            for (int j = 0; j < horario[i].length; j++) {
+            for (int j = index; j < (index+30); j++) {
                 show(horario[i][j]);
             }
             System.out.print("HORAS -> "+Turns.horasTotales(horario[i]));
             System.out.println();
         }
-
     }
     public void mostrarHoras(){
         int dias = 30;
