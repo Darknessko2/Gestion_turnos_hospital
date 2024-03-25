@@ -1,10 +1,7 @@
 package org.gestion;
 import FuturasLibrerias.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Generador {
     private Turns[][] horario;
@@ -47,12 +44,12 @@ public class Generador {
         for (registro = 0; registro < employees.size(); registro++) {
 
             // fecha con los valores originales de la copia
-
-            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
-                media = media / 2;
-            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
-                media = media / 2;
-            }
+//
+//            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
+//                media = media / 2;
+//            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
+//                media = media / 2;
+//            }
 
             Calendar fechaOriginal = fecha.clone();
 
@@ -90,43 +87,24 @@ public class Generador {
 //            }while (count1 < count2);
 //    }
 
-//    public void ordenarHorario( LinkedList<Employee> ultimaLista){
-//        List<Integer> indices = new ArrayList<>();
-//        if (ultimaLista != null) {
-//            for (int i = 0; i < employees.size(); i++) {
-//                if (!employees.get(i).equals(ultimaLista.get(i))) {
-//
-//                    int index = getIndexHorario(ultimaLista,employees.get(i));
-//
-//                    if (i <= index ) {
-//                        Turns[] temp = horario[index];
-//                        horario[index] = horario[i];
-//                        horario[i] = temp;
-//                    }
-//
-//                }
-//            }
-//        }
-//    }
-//    private int getIndexHorario(LinkedList<Employee> ultimaLista, Employee employee){
-//        for (int i = 0; i < ultimaLista.size(); i++) {
-//            if (ultimaLista.get(i).equals(employee))
-//                return i;
-//        }
-//        return -1;
-//    }
 
     public void mostrarHorario(){
-        int dias = 30;
-        int horas = 0;
         for (int i = 0; i < horario.length; i++) {
             for (int j = 0; j < horario[i].length; j++) {
                 show(horario[i][j]);
             }
             System.out.print("HORAS -> "+Turns.horasTotales(horario[i]));
             System.out.println();
+        }
+
+    }
+    public void mostrarHoras(){
+        int dias = 30;
+        int horas = 0;
+        for (int i = 0; i < horario.length; i++) {
             horas += Turns.horasTotales(horario[i]);
         }
+
         System.out.println("Horas totales "+horas);
         System.out.println("Horas esperadas"+48*dias);
     }
@@ -157,6 +135,29 @@ public class Generador {
             return (getDiaAnterior() == Turns.NIGHT) ?Turns.SALIENTE :Turns.LIBRE;
         // si no le corresponde ningun turno el dia sera libre o saliente
     }
+    public boolean verificar(int day){
+        int m = 0;
+        int t = 0;
+        int n = 0;
+        for (int i = 0; i < horario.length; i++) {
+            if (horario[i][day] == Turns.MORNING)
+                m++;
+            if (horario[i][day] == Turns.AFTERNOON)
+                t++;
+            if (horario[i][day] == Turns.NIGHT)
+                n++;
+        }
+        if (m != datosDia.getMaxMornings())
+            return false;
+
+        if (t != datosDia.getMaxAfternoons())
+            return false;
+
+        if (n != datosDia.getMaxNights())
+            return false;
+
+        return true;
+    }
     public boolean turnoCorrecto(Turns turno){
 
         if (turno == Turns.MORNING)
@@ -180,15 +181,28 @@ public class Generador {
         if (contarTurnosDia(Turns.MORNING) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
             return false;
 
-        if (mediaUltimosDias(Turns.MORNING) >= media) { // si las horas total de la semana han superado la media
-            return false;
-        }
 
-//        if (ultimosDias(Turns.MORNING,5) >= 3 ) // maximo turnos por semana
-//            return false;
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
+
+        if (!fecha.esFinSemana()){
+            if (mediaUltimosDias() > media) { // si ha superado la media
+                return false;
+            }
+            if (ultimosDias(Turns.MORNING,3) >= 3 ) // maximo turnos por semana
+                return false;
+
+        }else {
+            if (dia >= 4) {
+                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && (getDiaAnterior() != Turns.SALIENTE && getDiaAnterior() != Turns.LIBRE))
+                    return false;
+            }
+            if (fecha.getDiaSemana().equals("SUNDAY")) {
+                if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
+                    return false;
+            }
+        }
 
         return true;
     }
@@ -196,27 +210,38 @@ public class Generador {
     private boolean checkTarde() {
 
 
+//        if (registro == 8 && dia >= 27)
+//            System.out.println("hola");
+
         if (contarTurnosDia(Turns.AFTERNOON) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
             return false;
 
-        if (!fecha.esFinSemana() && diasTrabajando(4) <= 4){
-            if (mediaUltimosDias(Turns.AFTERNOON) >= media) { // si ha superado la media
+        if (!fecha.esFinSemana()){
+
+            if (ultimosDias(Turns.AFTERNOON,3) >= 3 ) // maximo turnos por semana
+                return false;
+
+            if (mediaUltimosDias() > media) { // si ha superado la media
                 return false;
             }
+
         }else {
 //            if (diasTrabajando(5) <= 3 && fecha.esFinSemana())
 //                return false;
 
-            if (fecha.getDiaSemana().equals("SATURDAY") && diasTrabajando(5) >3) // si los ultimos 4 dias ha trabajado 3 dias
-                return false;
+//            if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && getDiaAnterior() != Turns.SALIENTE) // si los ultimos 4 dias ha trabajado 3 dias
+//                return false;
+
+            if (dia >= 4) {
+                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && (getDiaAnterior() != Turns.LIBRE) && getDiaAnterior() != Turns.SALIENTE)
+                    return false;
+            }
 
             if (fecha.getDiaSemana().equals("SUNDAY")) {
                 if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
                     return false;
             }
         }
-
-
 
 //            if (ultimosDias(Turns.AFTERNOON, 5) >= 5)
 //                return false;
@@ -228,19 +253,14 @@ public class Generador {
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
 
-        if (fecha.getDiaSemana().equals("SUNDAY")) {
-            if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
-                return false;
-        }
-
         return true;
     }
-    private int diasTrabajando(int diasAverificar){
+    private int diasLibres(int diasAverificar){
         int result = 0;
         for (int i = dia; i > (dia - diasAverificar); i--) {
             if (i >= 0){
-                if (!(horario[registro][i] == Turns.LIBRE) && !(horario[registro][i] == Turns.SALIENTE))
-                    result++;
+                if (horario[registro][i] == Turns.LIBRE || horario[result][i] == Turns.SALIENTE )
+                     result++;
             }
         }
         return result;
@@ -251,24 +271,27 @@ public class Generador {
         if (contarTurnosDia(Turns.NIGHT) == datosDia.getMaxNights()) // maximo numero de noches en el dia actual
             return false;
 
-        if (getDiaAnterior() == Turns.SALIENTE)
-            return false;
 
-        if (ultimosDias(Turns.NIGHT,4) >= 1) // maximo noches cada cinco dias
+        if (ultimosDias(Turns.NIGHT,3) >= 1) // maximo noches cada tres dias
             return false;
 
         if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
             return false;
 
+        if (dia >=5) {
+            if (diasLibres(6) < 1)
+                return false;
+        }
+
         return true;
     }
 
-    private int mediaUltimosDias(Turns turno){ // comprobara las horas realizadas los ultimos cinco dias
+    private int mediaUltimosDias(){ // comprobara las horas realizadas los ultimos cinco dias
         int diasAverificar = 5;
         int result = 0;
         for (int i = dia; i > (dia - diasAverificar) ; i--) {
             if (i >= 0)
-                if (horario[registro][i] == turno)
+                if (horario[registro][i]!= null)
                     result+=horario[registro][i].getHours();
         }
         return result;
