@@ -18,28 +18,41 @@ public class Gestion {
         this.fecha = fecha;
     }
     public void agregarHoras(LinkedList<Employee> empleados) {
-        int num = 6;
+        int num = 18;
         for (int i = 0; i < num; i++) {
-            Collections.sort(empleados);
-            generador.reOrganizar();
-            App.mostrarEmpleados();
-            generador.rellenar();
-            if (i == 5) {
+
+
+            if (i % 2 == 0){ // cada cierto tiempo se activara el siguiente evento
+                // funcion que cambia el horario de uno tarde a uno mañana
+                Collections.sort(empleados);
+                empleados.get(0).setTurns(new Turns[]{Turns.MORNING,Turns.NIGHT});
+                // tambien se tendra que cambiar el numero maximo de mañanas dicho dia
+                datos.setMaxMornings(3);
+                generador.reOrganizar();
+                generador.rellenar();
+                datos.setMaxMornings(2);
+                // habra que tener cuidado con si un dia haz trabajado tarde al dia siguiente no puedes ir por la mañana
+                empleados.get(0).setTurns(new Turns[]{Turns.AFTERNOON,Turns.NIGHT});
+            }else {
                 Collections.sort(empleados);
                 generador.reOrganizar();
-                App.imprimirSemana(fecha);
-                generador.mostrarHorario(0);
-                numeros(0);
+                App.mostrarEmpleados();
+                generador.rellenar();
             }
         }
+            Collections.sort(empleados);
+            generador.reOrganizar();
+            App.imprimirSemana(fecha);
+            generador.mostrarHorario(0);
+            numeros(0);
 
 
-//        App.imprimirSemana(fecha);
-//        generador.mostrarHorario(28);
-//        numeros(28);
-//        App.imprimirSemana(fecha);
-//        generador.mostrarHorario(56);
-//        numeros(56);
+        App.imprimirSemana(fecha);
+        generador.mostrarHorario(28);
+        numeros(28);
+        App.imprimirSemana(fecha);
+        generador.mostrarHorario(56);
+        numeros(56);
         App.mostrarEmpleados();
     }
     public void numeros(int index){

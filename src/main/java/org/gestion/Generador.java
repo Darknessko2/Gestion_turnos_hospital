@@ -17,7 +17,7 @@ public class Generador {
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
-        this.media = media / 6;
+        this.media = 25;
         this.horario = new Turns[employees.size()][60];
         this.fecha = fecha;
         this.employees = employees;
@@ -40,16 +40,18 @@ public class Generador {
 
 
         // guardo los datos de la fecha original
+        boolean incrementado = false;
+        boolean decrementado = false;
 
         for (registro = 0; registro < employees.size(); registro++) {
 
             // fecha con los valores originales de la copia
-//
-//            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
-//                media = media / 2;
-//            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
-//                media = media / 2;
-//            }
+            //
+            //            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
+            //                media = media / 2;
+            //            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
+            //                media = media / 2;
+            //            }
 
             Calendar fechaOriginal = fecha.clone();
 
@@ -58,11 +60,15 @@ public class Generador {
             for (dia = 0; dia < (DIAS_SEMANA * valorNumerico) ; dia++) {
 
                 if (horario[registro][dia] == null){
-//                    mostrarHorario();
+
+//                    mostrarHorario(0);
 //                    System.out.println("-".repeat(100));
-//                    System.out.println(fecha.getDiaSemana());
                     horario[registro][dia] = turnoDisponible(employees.get(registro).getTurns());
                     employees.get(registro).agregarHoras(horario[registro][dia]);
+
+                    if (horario[0][dia] != Turns.MORNING && registro > 6) // si el primer dato es mañana
+                        datosDia.setMaxMornings(2);
+
                 }
                 fecha.incrementarDia();
             }
@@ -147,13 +153,13 @@ public class Generador {
             if (horario[i][day] == Turns.NIGHT)
                 n++;
         }
-        if (m != datosDia.getMaxMornings())
+        if (m < datosDia.getMaxMornings())
             return false;
 
-        if (t != datosDia.getMaxAfternoons())
+        if (t < datosDia.getMaxAfternoons())
             return false;
 
-        if (n != datosDia.getMaxNights())
+        if (n < datosDia.getMaxNights())
             return false;
 
         return true;
@@ -176,6 +182,10 @@ public class Generador {
     }
 
     private boolean checkMorning(){
+
+
+        if (getDiaAnterior() == Turns.AFTERNOON)
+            return false;
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;
@@ -224,16 +234,11 @@ public class Generador {
             if (ultimosDias(Turns.AFTERNOON,3) >= 3 ) // maximo turnos por semana
                 return false;
 
-            if (mediaUltimosDias() > media) { // si ha superado la media
+            if (mediaUltimosDias() > media ) { // si ha superado la media
                 return false;
             }
 
         }else {
-//            if (diasTrabajando(5) <= 3 && fecha.esFinSemana())
-//                return false;
-
-//            if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && getDiaAnterior() != Turns.SALIENTE) // si los ultimos 4 dias ha trabajado 3 dias
-//                return false;
 
             if (dia >= 4) {
                 if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && (getDiaAnterior() != Turns.LIBRE) && getDiaAnterior() != Turns.SALIENTE)
@@ -246,12 +251,6 @@ public class Generador {
             }
         }
 
-//            if (ultimosDias(Turns.AFTERNOON, 5) >= 5)
-//                return false;
-
-//        if (ultimosDias(Turns.AFTERNOON, 5) >= 3) { // maximo turnos por semana
-//            return false;
-//        }
 
         if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
             return false;

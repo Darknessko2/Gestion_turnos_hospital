@@ -36,6 +36,10 @@ public class Employee implements Comparable<Employee> {
         return hours;
     }
 
+    public void setTurns(Turns[] turns) {
+        this.turns = turns;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object)
