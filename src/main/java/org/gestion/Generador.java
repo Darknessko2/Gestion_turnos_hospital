@@ -11,23 +11,31 @@ public class Generador {
     private LinkedList<Employee> employees;
 
     public static final int DIAS_GENERADOS = 5;
+    public static final int DIAS_A_CALCULAR = 30;
     private static int dia;
     private static int registro;
     private static int valorNumerico = 1;
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
-        this.media = 25;
-        this.horario = new Turns[employees.size()][60];
+        this.media = redondearMedia(media);
+        this.horario = new Turns[employees.size()][1];
         this.fecha = fecha;
         this.employees = employees;
-        init();
+
+        iniciarHorario(); // a la hora de iniciar el horario se pondra los datos de los empleados
     }
-    public void init(){
+    public int redondearMedia(int media){ // es importante que la media sea multiplo de 5
+        int mediaRedondeada = media / (DIAS_A_CALCULAR / DIAS_GENERADOS);
+
+        while (mediaRedondeada % 5 != 0)
+            mediaRedondeada++;
+
+        return mediaRedondeada;
+    }
+    public void iniciarHorario(){
         for (int i = 0; i < horario.length; i++) {
-            for (int j = 0; j < horario[i].length; j++) {
-                horario[i] = employees.get(i).getHorariosEmpleado();
-            }
+            horario[i] = employees.get(i).getHorariosEmpleado();
         }
     }
     public Turns[][] getHorario() {
@@ -35,13 +43,6 @@ public class Generador {
     }
 
     public void rellenar(){
-
-        int mediaOriginal = media;
-
-
-        // guardo los datos de la fecha original
-        boolean incrementado = false;
-        boolean decrementado = false;
 
         for (registro = 0; registro < employees.size(); registro++) {
 
@@ -73,7 +74,6 @@ public class Generador {
                 fecha.incrementarDia();
             }
             fecha = fechaOriginal.clone();
-            media = mediaOriginal;
         }
         valorNumerico++;
         // al final del bucle la fecha no cambiara sus valores originales
@@ -94,7 +94,7 @@ public class Generador {
 //    }
 
 
-    public void mostrarHorario(int index){
+    public void mostrarHorario(int index){ // todo quitar
         App.imprimirSemana(fecha);
         for (int i = 0; i < horario.length; i++) {
             for (int j = index; j < (index+28); j++) {
@@ -104,7 +104,7 @@ public class Generador {
             System.out.println();
         }
     }
-    public void mostrarHoras(){
+    public void mostrarHoras(){ // todo quitar
         int dias = 30;
         int horas = 0;
         for (int i = 0; i < horario.length; i++) {
@@ -114,7 +114,7 @@ public class Generador {
         System.out.println("Horas totales "+horas);
         System.out.println("Horas esperadas"+48*dias);
     }
-    public void show(Turns turno){
+    public void show(Turns turno){ // todo quitar
         Color color;
 
         if (turno == Turns.AFTERNOON)
@@ -141,7 +141,7 @@ public class Generador {
             return (getDiaAnterior() == Turns.NIGHT) ?Turns.SALIENTE :Turns.LIBRE;
         // si no le corresponde ningun turno el dia sera libre o saliente
     }
-    public boolean verificar(int day){
+    public boolean verificar(int day){ // todo posible prueba
         int m = 0;
         int t = 0;
         int n = 0;
@@ -164,7 +164,7 @@ public class Generador {
 
         return true;
     }
-    public boolean turnoCorrecto(Turns turno){
+    public boolean turnoCorrecto(Turns turno){ // verificara si el turno asignado es correcto
 
         if (turno == Turns.MORNING)
             return checkMorning();
@@ -173,7 +173,7 @@ public class Generador {
         else
             return checkNoche();
     }
-    public Turns getDiaAnterior(){
+    public Turns getDiaAnterior(){ // devolvera el turno del dia anterior al actual
         Turns diaAnterior = null;
         if (dia != 0)
             diaAnterior = horario[registro][dia - 1];
@@ -181,40 +181,45 @@ public class Generador {
         return diaAnterior;
     }
 
-    private boolean checkMorning(){
+    private boolean verificarTurnosDia(Turns turno){ // si el dia ha superado o no los maximos turnos permitidos
+        if (turno == Turns.MORNING)
+            return contarTurnosDia(turno) >= datosDia.getMaxMornings();
+        else if (turno == Turns.AFTERNOON)
+            return contarTurnosDia(turno) >= datosDia.getMaxAfternoons();
+        else
+            return contarTurnosDia(turno) >= datosDia.getMaxNights();
+    }
 
+    private boolean checkMorning(){ // condiciones de la mañana
 
-        if (getDiaAnterior() == Turns.AFTERNOON)
+        if (getDiaAnterior() == Turns.AFTERNOON) // a la hora de cambiar los turnos es posible que el dia anterior sea tarde
             return false;
 
-        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
+        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior es una noche, turno mañana es incorrecto
             return false;
 
 
-        if (contarTurnosDia(Turns.MORNING) >= datosDia.getMaxMornings()) // maximo numero de mañanas en el dia actual
+        if (verificarTurnosDia(Turns.MORNING)) // maximo numero de mañanas en el dia actual
             return false;
-
 
 
         if (!fecha.esFinSemana()){
 
-            if (mediaUltimosDias() > media && (ultimosDias(Turns.MORNING,5) >= 4) ) { // si ha superado la media
+            if (mediaUltimosDias() > media && (ultimosDias(Turns.MORNING,5) >= 4) ) { // si ha superado la media y no tiene mas de 5 mañanas seguidas
                 return false;
             }
 
-            if (ultimosDias(Turns.MORNING,3) >= 3 ) // maximo turnos por semana
+            if (ultimosDias(Turns.MORNING,3) >= 3 ) // si en los ultimos 3 dias hay igual o mas de 3 noches
                 return false;
 
 
         }else {
             if (dia >= 4) {
-                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && (getDiaAnterior() != Turns.SALIENTE && getDiaAnterior() != Turns.LIBRE))
+                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && diaAnteriorlibre())
                     return false;
             }
-            if (fecha.getDiaSemana().equals("SUNDAY")) {
-                if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
-                    return false;
-            }
+            if (SabadoEsLibre())
+                return false;
         }
 
         return true;
@@ -222,11 +227,7 @@ public class Generador {
 
     private boolean checkTarde() {
 
-
-//        if (registro == 8 && dia >= 27)
-//            System.out.println("hola");
-
-        if (contarTurnosDia(Turns.AFTERNOON) == datosDia.getMaxAfternoons()) // maximo numero de tardes en el dia actual
+        if (verificarTurnosDia(Turns.AFTERNOON)) // maximo numero de tardes en el dia actual
             return false;
 
         if (!fecha.esFinSemana()){
@@ -239,25 +240,33 @@ public class Generador {
             }
 
         }else {
-
-            if (dia >= 4) {
-                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && (getDiaAnterior() != Turns.LIBRE) && getDiaAnterior() != Turns.SALIENTE)
+            if (dia >= 4) { // todo testear
+                if (fecha.getDiaSemana().equals("SATURDAY") && diasLibres(5) <= 1 && diaAnteriorlibre())
                     return false;
             }
 
-            if (fecha.getDiaSemana().equals("SUNDAY")) {
-                if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
-                    return false;
-            }
+            if (SabadoEsLibre()) // si es domingo y el dia anterior fue libre no tendria que trabajar
+                return false;
         }
 
-
-        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior no es una noche
+        if (getDiaAnterior() == Turns.NIGHT) // si el dia anterior  es una noche
             return false;
 
         return true;
     }
-    private int diasLibres(int diasAverificar){
+    private boolean diaAnteriorlibre(){ // si el dia anterior no es ni saliente ni libre
+        return getDiaAnterior() != Turns.LIBRE && getDiaAnterior() != Turns.SALIENTE;
+    }
+
+    private boolean SabadoEsLibre() {
+        if (fecha.getDiaSemana().equals("SUNDAY")) {
+            if (getDiaAnterior() == Turns.LIBRE || getDiaAnterior() == Turns.SALIENTE)
+                return true;
+        }
+        return false;
+    }
+
+    private int diasLibres(int diasAverificar){ // contara los dias libres o salientes de los dias anteriores
         int result = 0;
         for (int i = dia; i > (dia - diasAverificar); i--) {
             if (i >= 0){
@@ -268,27 +277,24 @@ public class Generador {
         return result;
     }
 
-    private boolean checkNoche(){ // todo pensar el problema a la hora de generar otra semana
+    private boolean checkNoche(){
 
-
-        if (contarTurnosDia(Turns.NIGHT) == datosDia.getMaxNights()) // maximo numero de noches en el dia actual
+        if (verificarTurnosDia(Turns.NIGHT)) // maximo numero de noches en el dia actual
             return false;
 
 
         if (ultimosDias(Turns.NIGHT,3) >= 1) // maximo noches cada tres dias
             return false;
 
-        if (getDiaAnterior() == Turns.NIGHT)// si el dia anterior no es una noche
+        if (getDiaAnterior() == Turns.NIGHT)// no se permite dos noches seguidas
             return false;
 
-        if (dia >=5) {
-//            if (registro == )
-
+        if (dia >= 5) {
             if (diasLibres(7) < 1)
                 return false;
         }
 
-        if (contarTurnosDia(Turns.NIGHT) == 1 && registro < 6) // wtf
+        if (contarTurnosDia(Turns.NIGHT) == 1 && registro < 6) // con esta condicion se reparte la noche a cada turno  todo mejorar
             return false;
 
         return true;
@@ -315,7 +321,7 @@ public class Generador {
         }
         return result;
     }
-    private int contarTurnosSemana(Turns turno){ // contara los turnos que hay en la semana
+    private int contarTurnosSemana(Turns turno){ // contara los turnos que hay en la semana todo posiblemente borrar
         int result = 0;
         for (int dia = 0; dia < DIAS_GENERADOS; dia++) {
             if (horario[registro][dia] != null) {

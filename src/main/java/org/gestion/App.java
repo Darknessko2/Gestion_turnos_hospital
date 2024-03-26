@@ -32,7 +32,7 @@ public class App {
 
         employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
 
-        Calendar fecha = new Calendar(1, 1, 1900);
+        Calendar fecha = new Calendar(1, 1, 2010);
 
         DatosDia dia = new DatosDia(2, 2, 2);
 
