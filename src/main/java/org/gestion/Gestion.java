@@ -65,13 +65,21 @@ public class Gestion {
         employees.get(0).intercambiarTurno();
         // el empleado volvera a tener su turno normal
     }
-    public void numeros(int index){
+    public boolean numeros(int index){
+        boolean correcto = true;
         for (int i = index; i < (index+28); i++) {
-            if (generador.verificar(i))
-                System.out.print(String.format("%02d|", i));
-            else
-                System.out.print(Color.str(String.format("%02d|", i),Color.RED));
+            if (index < 300) {
+                if (generador.verificar(i))
+                    continue;
+                else {
+                    System.out.print(Color.str(String.format("%02d|", i), Color.RED));
+                    correcto = false;
+                }
+            }
         }
         System.out.println();
+//        generador.mostrarHorario(index);
+        return correcto;
+//        System.out.print(String.format("%02d|", i));
     }
 }

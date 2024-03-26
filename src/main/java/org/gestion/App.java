@@ -10,37 +10,45 @@ public class App {
     public static void main(String[] args) {
 
 
-        employees.add(new Employee("M-N-1", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//        employees.add(new Employee("M-N-1", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("M-N-2", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("M-N-3", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("M-N-4", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("M-N-5", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-1", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-2", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-3", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-4", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-5", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
+//
+//        Calendar fecha = new Calendar(1, 1, 2010);
+//
+//        DatosDia dia = new DatosDia(2, 2, 2);
+//
+//        Generador generador = new Generador(dia,140,fecha,employees);
+//
+//        Gestion gestion = new Gestion(dia, fecha,generador);
+//
+//        gestion.creacionPlanilla(employees);
 
-        employees.add(new Employee("M-N-2", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+        // registro de los empleados todo
 
-        employees.add(new Employee("M-N-3", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
+        // peticion de los datos todo
 
-        employees.add(new Employee("M-N-4", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("M-N-5", new Turns[]{Turns.MORNING, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-1", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-2", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-3", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-4", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-5", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        employees.add(new Employee("T-N-6", new Turns[]{Turns.AFTERNOON, Turns.NIGHT}, 0));
-
-        Calendar fecha = new Calendar(1, 1, 2010);
-
-        DatosDia dia = new DatosDia(2, 2, 2);
-
-        Generador generador = new Generador(dia,140,fecha,employees);
-
-        Gestion gestion = new Gestion(dia, fecha,generador);
-
-        gestion.creacionPlanilla(employees);
+        // generacion de la planilla
+        // se escribiria la fecha junto el dia
+        // escritura en fichero
 
 
     }

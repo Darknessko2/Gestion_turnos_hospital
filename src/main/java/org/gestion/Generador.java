@@ -12,14 +12,14 @@ public class Generador {
 
     public static final int DIAS_GENERADOS = 5;
     public static final int DIAS_A_CALCULAR = 30;
-    private static int dia;
-    private static int registro;
-    private static int valorNumerico = 1;
+    public static int dia;
+    public static int registro;
+    public static int valorNumerico = 1;
 
     public Generador(DatosDia datosDia, int media, Calendar fecha,LinkedList<Employee> employees) {
         this.datosDia = datosDia;
         this.media = redondearMedia(media);
-        this.horario = new Turns[employees.size()][1];
+        this.horario = new Turns[employees.size()][70];
         this.fecha = fecha;
         this.employees = employees;
 
@@ -48,11 +48,11 @@ public class Generador {
 
             // fecha con los valores originales de la copia
             //
-            //            if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
-            //                media = media / 2;
-            //            } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
-            //                media = media / 2;
-            //            }
+//                        if (registro % 2 == 0 && valorNumerico % 2 == 0 ) {
+//                            media = media / 2;
+//                        } else if (registro % 2 != 0 && valorNumerico %2 != 0) {
+//                            media = media / 2;
+//                        }
 
             Calendar fechaOriginal = fecha.clone();
 
