@@ -14,7 +14,7 @@ public class Employee implements Comparable<Employee> {
         this.code = code;
         this.turns = turns;
         this.hours = hours;
-        this.horariosEmpleado = new Turns[90];
+        this.horariosEmpleado = new Turns[365];
     }
 
     public Turns[] getHorariosEmpleado() {
@@ -38,6 +38,12 @@ public class Employee implements Comparable<Employee> {
 
     public void setTurns(Turns[] turns) {
         this.turns = turns;
+    }
+    public void intercambiarTurno(){ // intercambia el valor de tarde a mañana y viceversa
+        if (turns[0] == Turns.AFTERNOON)
+            turns[0] = Turns.MORNING;
+        else
+            turns[0] = Turns.AFTERNOON;
     }
 
     @Override
