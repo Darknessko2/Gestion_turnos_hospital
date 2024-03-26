@@ -11,39 +11,37 @@ public class Gestion {
     private DatosDia datos;
     private Calendar fecha;
 
+    private static final int NUMERO_DIAS = 370; // 370 porque puede haber años que tengan mas de 365 dias
+
     public Gestion(DatosDia datos, Calendar fecha, Generador generador) {
         this.generador = generador;
         this.datos = datos;
         this.fecha = fecha;
     }
     public void creacionPlanilla(LinkedList<Employee> empleados) {
-        int num = 6 * 12;
-        for (int i = 0; i < num; i++) {
 
+        int limite = NUMERO_DIAS / Generador.DIAS_GENERADOS;
 
-            if (i % 2 == 0){ // cada cierto tiempo se activara el siguiente evento
-                // funcion que cambia el horario de uno tarde a uno mañana
-                Collections.sort(empleados);
-                empleados.get(0).intercambiarTurno();
-                // tambien se tendra que cambiar el numero maximo de mañanas dicho dia
-                datos.setMaxMornings(3);
-                generador.reOrganizar();
-                generador.rellenar();
-                datos.setMaxMornings(2);
-                // habra que tener cuidado con si un dia haz trabajado tarde al dia siguiente no puedes ir por la mañana
-                empleados.get(0).intercambiarTurno();
+        for (int i = 0; i < limite; i++) { // se crerar la planilla hasta cumplir los doce meses
+
+            Collections.sort(empleados);
+
+            if (i % 2 == 0){ // cada cierto tiempo se activara el evento de cambio de turno
+                cambiarTurno(empleados);
             }else {
-                Collections.sort(empleados);
                 generador.reOrganizar();
                 generador.rellenar();
             }
         }
+        mostrarResultados(empleados);
 
+    }
+    private void mostrarResultados(LinkedList<Employee> empleados){ // todo quitar del programa
 
         int index = 0;
         Collections.sort(empleados);
         generador.reOrganizar();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 14; i++) {
 
             App.imprimirSemana(fecha);
             generador.mostrarHorario(index);
@@ -51,6 +49,21 @@ public class Gestion {
             index+= 28;
         }
         App.mostrarEmpleados();
+
+    }
+    private void cambiarTurno(LinkedList<Employee> employees){
+        // funcion que cambia el horario de uno tarde a uno mañana
+        employees.get(0).intercambiarTurno();
+        // el primer elemento de tarde que es el que menos horas tiene
+        datos.setMaxMornings(3);
+        // tambien se tendra que cambiar el numero maximo de mañanas dicho dia
+        generador.reOrganizar();
+        generador.rellenar();
+
+        datos.setMaxMornings(2);
+        // habra que tener cuidado con si un dia haz trabajado tarde al dia siguiente no puedes ir por la mañana
+        employees.get(0).intercambiarTurno();
+        // el empleado volvera a tener su turno normal
     }
     public void numeros(int index){
         for (int i = index; i < (index+28); i++) {

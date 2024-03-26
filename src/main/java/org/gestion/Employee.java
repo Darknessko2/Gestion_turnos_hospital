@@ -14,7 +14,7 @@ public class Employee implements Comparable<Employee> {
         this.code = code;
         this.turns = turns;
         this.hours = hours;
-        this.horariosEmpleado = new Turns[365];
+        this.horariosEmpleado = new Turns[400];
     }
 
     public Turns[] getHorariosEmpleado() {

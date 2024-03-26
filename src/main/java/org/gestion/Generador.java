@@ -10,7 +10,7 @@ public class Generador {
     private Calendar fecha;
     private LinkedList<Employee> employees;
 
-    private static final int DIAS_SEMANA = 5;
+    public static final int DIAS_GENERADOS = 5;
     private static int dia;
     private static int registro;
     private static int valorNumerico = 1;
@@ -57,7 +57,7 @@ public class Generador {
 
             fecha = fechaOriginal.clone();
 
-            for (dia = 0; dia < (DIAS_SEMANA * valorNumerico) ; dia++) {
+            for (dia = 0; dia < (DIAS_GENERADOS * valorNumerico) ; dia++) {
 
                 if (horario[registro][dia] == null){
 
@@ -317,7 +317,7 @@ public class Generador {
     }
     private int contarTurnosSemana(Turns turno){ // contara los turnos que hay en la semana
         int result = 0;
-        for (int dia = 0; dia < DIAS_SEMANA ; dia++) {
+        for (int dia = 0; dia < DIAS_GENERADOS; dia++) {
             if (horario[registro][dia] != null) {
                 if (turno == horario[registro][dia])
                     result++;
