@@ -18,25 +18,28 @@ public class Gestion {
         this.fecha = fecha;
     }
     public void agregarHoras(LinkedList<Employee> empleados) {
-        for (int i = 0; i < 18; i++) {
+        int num = 6;
+        for (int i = 0; i < num; i++) {
             Collections.sort(empleados);
-            if (i %2 == 0)
-                Collections.reverse(empleados);
-
             generador.reOrganizar();
+            App.mostrarEmpleados();
             generador.rellenar();
+            if (i == 5) {
+                Collections.sort(empleados);
+                generador.reOrganizar();
+                App.imprimirSemana(fecha);
+                generador.mostrarHorario(0);
+                numeros(0);
+            }
         }
 
-        App.imprimirSemana(fecha);
-        generador.mostrarHorario(0);
-        numeros(0);
 
-        generador.mostrarHorario(28);
-        numeros(28);
-
-        generador.mostrarHorario(56);
-        numeros(56);
-
+//        App.imprimirSemana(fecha);
+//        generador.mostrarHorario(28);
+//        numeros(28);
+//        App.imprimirSemana(fecha);
+//        generador.mostrarHorario(56);
+//        numeros(56);
         App.mostrarEmpleados();
     }
     public void numeros(int index){
