@@ -24,7 +24,7 @@ public class Gestion {
 
         for (int i = 0; i < limite; i++) { // se crerar la planilla hasta cumplir los doce meses
 
-            Collections.sort(empleados);
+            Collections.sort(empleados,new OrdenacionHoras()); // se ordenara los empleados priorizando los empleados con menos horas
 
             if (i % 2 == 0){ // cada cierto tiempo se activara el evento de cambio de turno
                 cambiarTurno(empleados);
@@ -39,7 +39,7 @@ public class Gestion {
     private void mostrarResultados(LinkedList<Employee> empleados){ // todo quitar del programa
 
         int index = 0;
-        Collections.sort(empleados);
+        Collections.sort(empleados, new OrdenacionHoras());
         generador.reOrganizar();
         for (int i = 0; i < 14; i++) {
 

@@ -12,28 +12,6 @@ public class App {
     public static  LinkedList<Employee> employees = new LinkedList<>();
     public static void main(String[] args) {
 
-//        employees.add(new Employee("M-N-1", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("M-N-2", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("M-N-3", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("M-N-4", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("M-N-5", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-1", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-2", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-3", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-4", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-5", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
-//        employees.add(new Employee("T-N-6", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-//
 //        Calendar fecha = new Calendar(1, 1, 2010);
 //
 //        DatosDia dia = new DatosDia(2, 2, 2);
@@ -48,28 +26,11 @@ public class App {
 //
 //        write.escribir("prueba.csv");
 
-
-
 //        JLabel mensajeLabel = new JLabel("GENERANDO LABERINTO...");
 //        mensajeLabel.setForeground(Color.white);
 
 //        Tablero tablero = new Tablero(boardWidth,boardHeight,mensajeLabel,headerPanel);
 
-
-//        frame.add(tablero, BorderLayout.CENTER);
-
-
-//        mensajeLabel.setFont(FUENTE);
-//        headerPanel.add(mensajeLabel);
-
-//        frame.add(tablero);
-
-//        tablero.requestFocusInWindow();
-
-        // registro de los empleados todo
-
-        // peticion de los datos todo
-        // falta ordenar los empleados antes de escribir el fichero todo
     }
     public static void mostrarEmpleados(){
         for(Employee employee : employees)
