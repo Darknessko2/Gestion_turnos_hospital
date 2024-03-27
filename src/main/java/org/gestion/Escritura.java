@@ -21,9 +21,10 @@ public class Escritura {
 
         int inicio = 0;
         int limite = 0;
+        int numMeses = 12;
 
         try(BufferedWriter wr = new BufferedWriter(new FileWriter(ruta))) {
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < numMeses; i++) {
                 limite += Calendar.getLimit(fecha.getMonth(),fecha.getYear());
                 wr.write("Mes,"+fecha.mesString()+"\n");
                 wr.write("Nombre,"+date(inicio,limite)+"Horas\n");

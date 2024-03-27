@@ -33,7 +33,7 @@ public class Gestion {
                 generador.rellenar();
             }
         }
-        mostrarResultados(empleados);
+//        mostrarResultados(empleados);
 
     }
     private void mostrarResultados(LinkedList<Employee> empleados){ // todo quitar del programa
