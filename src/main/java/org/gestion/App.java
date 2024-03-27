@@ -2,6 +2,9 @@ package org.gestion;
 
 import FuturasLibrerias.Calendar;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 public class App {
@@ -9,52 +12,64 @@ public class App {
     public static  LinkedList<Employee> employees = new LinkedList<>();
     public static void main(String[] args) {
 
+//        employees.add(new Employee("M-N-1", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("M-N-2", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("M-N-3", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("M-N-4", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("M-N-5", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-1", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-2", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-3", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-4", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-5", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        employees.add(new Employee("T-N-6", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//
+//        Calendar fecha = new Calendar(1, 1, 2010);
+//
+//        DatosDia dia = new DatosDia(2, 2, 2);
+//
+//        Generador generador = new Generador(dia,140,fecha,employees);
+//
+//        Gestion gestion = new Gestion(dia, fecha,generador);
+//
+//        gestion.creacionPlanilla(employees);
+//
+//        Escritura write = new Escritura(fecha,employees);
+//
+//        write.escribir("prueba.csv");
 
-        employees.add(new Employee("M-N-1", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
 
-        employees.add(new Employee("M-N-2", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
 
-        employees.add(new Employee("M-N-3", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//        JLabel mensajeLabel = new JLabel("GENERANDO LABERINTO...");
+//        mensajeLabel.setForeground(Color.white);
 
-        employees.add(new Employee("M-N-4", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+//        Tablero tablero = new Tablero(boardWidth,boardHeight,mensajeLabel,headerPanel);
 
-        employees.add(new Employee("M-N-5", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
 
-        employees.add(new Employee("T-N-1", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//        frame.add(tablero, BorderLayout.CENTER);
 
-        employees.add(new Employee("T-N-2", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
 
-        employees.add(new Employee("T-N-3", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//        mensajeLabel.setFont(FUENTE);
+//        headerPanel.add(mensajeLabel);
 
-        employees.add(new Employee("T-N-4", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+//        frame.add(tablero);
 
-        employees.add(new Employee("T-N-5", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-
-        employees.add(new Employee("T-N-6", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
-
-        Calendar fecha = new Calendar(1, 1, 2010);
-
-        DatosDia dia = new DatosDia(2, 2, 2);
-
-        Generador generador = new Generador(dia,140,fecha,employees);
-
-        Gestion gestion = new Gestion(dia, fecha,generador);
-
-        gestion.creacionPlanilla(employees);
-
-        Escritura escritura = new Escritura(fecha,employees);
-
-        escritura.escritura("prueba.csv");
+//        tablero.requestFocusInWindow();
 
         // registro de los empleados todo
 
         // peticion de los datos todo
-
-        // generacion de la planilla
-        // se escribiria la fecha junto el dia
-        // escritura en fichero
-
-
+        // falta ordenar los empleados antes de escribir el fichero todo
     }
     public static void mostrarEmpleados(){
         for(Employee employee : employees)

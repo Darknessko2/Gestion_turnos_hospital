@@ -2,7 +2,6 @@ package org.gestion;
 
 import FuturasLibrerias.Calendar;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +16,7 @@ public class Escritura {
         this.fecha = fecha;
         this.empleados = empleados;
     }
-    public void escritura(String ruta){
+    public void escribir(String ruta){
 
         int inicio = 0;
         int limite = 0;

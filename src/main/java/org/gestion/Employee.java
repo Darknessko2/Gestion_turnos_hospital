@@ -9,10 +9,10 @@ public class Employee implements Comparable<Employee> {
     private int hours;
     private Turns[] horariosEmpleado;
 
-    public Employee(String code, Turns[] turns, int hours) {
+    public Employee(String code, Turns[] turns) {
         this.code = code;
         this.turns = turns;
-        this.hours = hours;
+        this.hours = 0;
         this.horariosEmpleado = new Turns[400];
     }
 
