@@ -21,27 +21,27 @@ public class AppTest {
     @BeforeEach
     public void empleados(){
 
-        employees.add(new Employee("M-N-1", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+        employees.add(new Employee("M-N-1", new Turns[]{Turns.MANYANAS, Turns.NOCHE}));
 
-        employees.add(new Employee("M-N-2", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+        employees.add(new Employee("M-N-2", new Turns[]{Turns.MANYANAS, Turns.NOCHE}));
 
-        employees.add(new Employee("M-N-3", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+        employees.add(new Employee("M-N-3", new Turns[]{Turns.MANYANAS, Turns.NOCHE}));
 
-        employees.add(new Employee("M-N-4", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+        employees.add(new Employee("M-N-4", new Turns[]{Turns.MANYANAS, Turns.NOCHE}));
 
-        employees.add(new Employee("M-N-5", new Turns[]{Turns.MANYANAS, Turns.NOCHE}, 0));
+        employees.add(new Employee("M-N-5", new Turns[]{Turns.MANYANAS, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-1", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-1", new Turns[]{Turns.TARDES, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-2", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-2", new Turns[]{Turns.TARDES, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-3", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-3", new Turns[]{Turns.TARDES, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-4", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-4", new Turns[]{Turns.TARDES, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-5", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-5", new Turns[]{Turns.TARDES, Turns.NOCHE}));
 
-        employees.add(new Employee("T-N-6", new Turns[]{Turns.TARDES, Turns.NOCHE}, 0));
+        employees.add(new Employee("T-N-6", new Turns[]{Turns.TARDES, Turns.NOCHE}));
     }
 
     @ParameterizedTest

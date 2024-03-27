@@ -2,11 +2,12 @@ package org.gestion;
 
 import FuturasLibrerias.Calendar;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Escritura {
@@ -17,13 +18,16 @@ public class Escritura {
         this.fecha = fecha;
         this.empleados = empleados;
     }
-    public void escritura(String ruta){
+    public void escribir(String ruta){ // escribira en el fichero csv los datos
+        Collections.sort(empleados,new OrdenacionPorCodigo());
+        // a la hora de la escritura final los empleados estaran ordenados por codigo
 
         int inicio = 0;
         int limite = 0;
+        int numMeses = 12;
 
         try(BufferedWriter wr = new BufferedWriter(new FileWriter(ruta))) {
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < numMeses; i++) {
                 limite += Calendar.getLimit(fecha.getMonth(),fecha.getYear());
                 wr.write("Mes,"+fecha.mesString()+"\n");
                 wr.write("Nombre,"+date(inicio,limite)+"Horas\n");
@@ -34,6 +38,7 @@ public class Escritura {
                 }
                 inicio = limite;
             }
+            abrirArchivoCSV(ruta);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -62,5 +67,13 @@ public class Escritura {
         datosMes.append(Turns.horasTotales(turnosMes));
 
         return datosMes.toString();
+    }
+    private void abrirArchivoCSV(String ruta) { // al final del programa ejecutara el nuevo fichero csv creado
+        try {
+            File archivoCSV = new File(ruta);
+            Runtime.getRuntime().exec("cmd /c start "+archivoCSV);
+            } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
