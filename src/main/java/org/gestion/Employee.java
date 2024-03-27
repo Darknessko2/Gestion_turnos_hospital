@@ -1,7 +1,6 @@
 package org.gestion;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Employee implements Comparable<Employee> {
@@ -14,7 +13,7 @@ public class Employee implements Comparable<Employee> {
         this.code = code;
         this.turns = turns;
         this.hours = hours;
-        this.horariosEmpleado = new Turns[90];
+        this.horariosEmpleado = new Turns[400];
     }
 
     public Turns[] getHorariosEmpleado() {
@@ -34,6 +33,16 @@ public class Employee implements Comparable<Employee> {
 
     public int getHours() {
         return hours;
+    }
+
+    public void setTurns(Turns[] turns) {
+        this.turns = turns;
+    }
+    public void intercambiarTurno(){ // intercambia el valor de tarde a mañana y viceversa
+        if (turns[0] == Turns.TARDES)
+            turns[0] = Turns.MANYANAS;
+        else
+            turns[0] = Turns.TARDES;
     }
 
     @Override

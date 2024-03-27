@@ -24,4 +24,14 @@ public class DatosDia {
     public int getMaxNights() {
         return maxNights;
     }
+
+    public void setMaxMornings(int maxMornings) {
+        this.maxMornings = maxMornings;
+    }
+    public void incrementarMorning(){
+        maxMornings++;
+    }
+    public void decrementarMorning(){
+        maxMornings--;
+    }
 }
