@@ -19,37 +19,48 @@ public class Escritura {
     }
     public void escritura(String ruta){
 
-        int limite = Calendar.getLimit(fecha.getMonth(),fecha.getYear());
+        int inicio = 0;
+        int limite = 0;
 
         try(BufferedWriter wr = new BufferedWriter(new FileWriter(ruta))) {
-            wr.write("Nombre,"+date(limite)+"\n");
+            for (int i = 0; i < 12; i++) {
+                limite += Calendar.getLimit(fecha.getMonth(),fecha.getYear());
+                wr.write("Mes,"+fecha.mesString()+"\n");
+                wr.write("Nombre,"+date(inicio,limite)+"Horas\n");
 
-            for(Employee empleado : empleados){
-                wr.write(empleado.getCode()+","+turnosString(empleado.getHorariosEmpleado(),limite)+"\n");
+                for(Employee empleado : empleados){
+                    wr.write(empleado.getCode()+","+
+                            turnosString(empleado.getHorariosEmpleado(),inicio,limite)+"\n");
+                }
+                inicio = limite;
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private String date(int limite){ // todo cambiar los dias a espanyol
+    private String date(int inicio,int limite){ // todo cambiar los dias a espanyol
         StringBuilder datosFecha = new StringBuilder();
 
-        for (int i = 0; i < limite; i++) {
-            datosFecha.append(fecha.diaFormatedo()+" "+fecha.getDay()+"/"+fecha.getMonth()+",");
+        for (int i = inicio; i < limite; i++) {
+            datosFecha.append(fecha.diaFormatedo()+" "+
+                    String.format("%02d",fecha.getDay())+"/"+
+                    String.format("%02d",fecha.getMonth())+",");
             fecha.incrementarDia();
         }
-
         return datosFecha.toString();
     }
-    private String turnosString(Turns[] turnos, int limite){
+    private String turnosString(Turns[] turnos,int inicio ,int limite){
 
         StringBuilder datosMes = new StringBuilder();
 
-        Turns[] turnosMes = Arrays.copyOf(turnos,limite);
+        Turns[] turnosMes = Arrays.copyOfRange(turnos,inicio,limite);
 
         for(Turns turno : turnosMes){
             datosMes.append(Turns.formateado(turno)).append(",");
         }
+        datosMes.append(Turns.horasTotales(turnosMes));
+
         return datosMes.toString();
     }
 }
