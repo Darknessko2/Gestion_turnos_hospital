@@ -45,13 +45,13 @@ public class Gestion {
 
             App.imprimirSemana(fecha);
             generador.mostrarHorario(index);
-            numeros(index);
+            verificarMes(index);
             index+= 28;
         }
         App.mostrarEmpleados();
 
     }
-    private void cambiarTurno(LinkedList<Employee> employees){
+    private void cambiarTurno(LinkedList<Employee> employees){ // todo mejorar
         // funcion que cambia el horario de uno tarde a uno mañana
         employees.get(0).intercambiarTurno();
         // el primer elemento de tarde que es el que menos horas tiene
@@ -65,7 +65,7 @@ public class Gestion {
         employees.get(0).intercambiarTurno();
         // el empleado volvera a tener su turno normal
     }
-    public boolean numeros(int index){
+    public boolean verificarMes(int index){ // todo quitar
         boolean correcto = true;
         for (int i = index; i < (index+28); i++) {
             if (index < 300) {

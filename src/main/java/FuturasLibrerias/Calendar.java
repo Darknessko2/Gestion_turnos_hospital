@@ -83,6 +83,40 @@ public class Calendar {
         DayOfWeek dayOfWeek = fecha.getDayOfWeek();
         return dayOfWeek.toString();
     }
+    public String diaFormatedo(){
+        String dia = getDiaSemana();
+        String diaEnEspanyol="";
+        switch (dia){
+            case "MONDAY":
+                diaEnEspanyol = "L";
+                break;
+
+            case "TUESDAY":
+                diaEnEspanyol = "M";
+                break;
+
+            case "WEDNESDAY":
+                diaEnEspanyol = "M";
+                break;
+
+            case "THURSDAY":
+                diaEnEspanyol = "J";
+                break;
+
+            case "FRIDAY":
+                diaEnEspanyol = "V";
+                break;
+
+            case "SATURDAY":
+                diaEnEspanyol = "S";
+                break;
+
+            case "SUNDAY":
+                diaEnEspanyol = "D";
+                break;
+        }
+        return diaEnEspanyol;
+    }
     public String getDiaAnterior(){
         LocalDate fecha = LocalDate.of(year,month,day);
         LocalDate yesterday = fecha.minusDays(1);
