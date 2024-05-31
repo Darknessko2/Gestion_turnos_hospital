@@ -9,11 +9,11 @@ Horarios de Trabajo
 * NOCHE: 10:00 p.m. - 8:00 a.m. *
 
  ## Distribución de Personal ##
-MAÑANA: Inicialmente solo mañanas o noches.
-TARDE: Inicialmente solo tardes o noches.
-Requisitos
-Media mensual aproximada de 140 horas.
-Solo 2 personas en turno de noche de lunes a domingo.
+* MAÑANA: Inicialmente solo mañanas o noches. *
+* TARDE: Inicialmente solo tardes o noches. *
+# Requisitos #
+* Media mensual aproximada de 140 horas. *
+* Solo 2 personas en turno de noche de lunes a domingo. *
 Idealmente 2 personas en turnos de mañana y tarde; pueden ser 3 en circunstancias especiales.
 Trabajadores deben hacer 1 noche/semana, con excepción rotativa para noches dobles.
 Fines de semana se trabajan completos o se libran completos.
