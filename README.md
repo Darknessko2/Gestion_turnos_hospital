@@ -7,7 +7,8 @@ Horarios de Trabajo
 * MAÑANA: 8:00 a.m. - 3:00 p.m. *
 * TARDE: 3:00 p.m. - 10:00 p.m. *
 * NOCHE: 10:00 p.m. - 8:00 a.m. *
-Distribución de Personal
+
+ ## Distribución de Personal ##
 MAÑANA: Inicialmente solo mañanas o noches.
 TARDE: Inicialmente solo tardes o noches.
 Requisitos
