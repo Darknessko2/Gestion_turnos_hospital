@@ -4,7 +4,7 @@
 Este archivo contiene instrucciones y requisitos para la distribución de horarios de trabajo en un hospital, asegurando una cobertura adecuada y equitativa.
 
 Horarios de Trabajo
-_ MAÑANA: 8:00 a.m. - 3:00 p.m. _
+* MAÑANA: 8:00 a.m. - 3:00 p.m. *
 _ TARDE: 3:00 p.m. - 10:00 p.m. _
 _ NOCHE: 10:00 p.m. - 8:00 a.m. _
 Distribución de Personal
