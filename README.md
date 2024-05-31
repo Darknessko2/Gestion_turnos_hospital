@@ -1,12 +1,12 @@
 
 
-Planilla de Distribución de Horarios para Hospital
+# Planilla de Distribución de Horarios para Hospital #
 Este archivo contiene instrucciones y requisitos para la distribución de horarios de trabajo en un hospital, asegurando una cobertura adecuada y equitativa.
 
 Horarios de Trabajo
-MAÑANA: 8:00 a.m. - 3:00 p.m.
-TARDE: 3:00 p.m. - 10:00 p.m.
-NOCHE: 10:00 p.m. - 8:00 a.m.
+_ MAÑANA: 8:00 a.m. - 3:00 p.m. _
+_ TARDE: 3:00 p.m. - 10:00 p.m. _
+_ NOCHE: 10:00 p.m. - 8:00 a.m. _
 Distribución de Personal
 MAÑANA: Inicialmente solo mañanas o noches.
 TARDE: Inicialmente solo tardes o noches.
